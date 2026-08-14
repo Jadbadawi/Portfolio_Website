@@ -1,0 +1,102 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens.
+ *
+ * A light, technical system: warm off-white paper, near-black ink, and a
+ * single restrained signal-orange accent used sparingly (rules, markers,
+ * links). Monospace is reserved for "instrument" text — section indices,
+ * captions, data labels — which is what gives the site its engineering feel
+ * without resorting to gimmicks.
+ */
+:root {
+  --paper: #faf9f6;
+  --panel: #ffffff;
+  --ink: #191a1e;
+  --ink-2: #4d5058;
+  --ink-3: #82858d;
+  --line: #e4e2da;
+  --line-strong: #cfcdc4;
+  --accent: #b3400d;
+  --accent-strong: #93340a;
+  --accent-soft: #f6e7dd;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-panel: var(--panel);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-soft: var(--accent-soft);
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--accent-soft);
+  color: var(--ink);
+}
+
+/* Visible focus for keyboard users, invisible for pointer users. */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ------------------------------------------------------------- reveal
+ * Scroll-reveal: elements start hidden only when JS has confirmed it will
+ * reveal them (html.js-reveal), so the site is fully visible without JS.
+ * prefers-reduced-motion disables the whole mechanism.
+ */
+html.js-reveal .reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+html.js-reveal .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.js-reveal .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Fine blueprint-style grid used behind the hero. */
+.technical-grid {
+  background-image:
+    linear-gradient(to right, rgba(25, 26, 30, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(25, 26, 30, 0.045) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: linear-gradient(to bottom, black 0%, black 55%, transparent 100%);
+}
