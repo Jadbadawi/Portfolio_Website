@@ -130,6 +130,23 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
           </dl>
         )}
 
+        {/* ------------------------------------------------------- contents */}
+        <nav aria-label="Sections in this case study" className="mt-10 border-y border-line py-4">
+          <ul className="flex flex-wrap gap-x-5 gap-y-2">
+            {project.sections.map((section, i) => (
+              <li key={section.id}>
+                <a
+                  href={`#${section.id}`}
+                  className="font-mono text-xs text-ink-2 transition-colors hover:text-accent-strong"
+                >
+                  <span className="text-ink-3">{String(i + 1).padStart(2, "0")}</span>{" "}
+                  {section.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
         {/* -------------------------------------------------------- sections */}
         {project.sections.map((section, i) => (
           <section key={section.id} id={section.id} className="scroll-mt-20 py-12 sm:py-14">

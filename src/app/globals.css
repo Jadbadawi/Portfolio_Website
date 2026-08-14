@@ -92,6 +92,27 @@ html.js-reveal .reveal.is-visible {
   }
 }
 
+/* ----------------------------------------------------------- lightbox
+ * Styled here rather than with Tailwind's `backdrop:` variant so the
+ * native ::backdrop pseudo-element is reliably targeted.
+ */
+dialog.lightbox {
+  position: fixed;
+  inset: 0;
+  max-width: 100vw;
+  max-height: 100dvh;
+  width: 100vw;
+  height: 100dvh;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  overflow: hidden;
+}
+
+dialog.lightbox::backdrop {
+  background: rgba(18, 19, 22, 0.92);
+}
+
 /* Fine blueprint-style grid used behind the hero. */
 .technical-grid {
   background-image:

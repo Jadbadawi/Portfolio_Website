@@ -11,6 +11,7 @@ export default function ProjectCard({
 }) {
   const card: Figure & { objectPosition?: string; fit?: "cover" | "contain" } =
     project.card ?? project.hero;
+  const hover = project.cardHover;
   const flipped = index % 2 === 1;
 
   return (
@@ -21,7 +22,7 @@ export default function ProjectCard({
         }`}
       >
         <div
-          className={`overflow-hidden rounded-sm border border-line bg-panel ${
+          className={`relative overflow-hidden rounded-sm border border-line bg-panel ${
             flipped ? "lg:order-2" : ""
           }`}
         >
@@ -31,11 +32,25 @@ export default function ProjectCard({
             width={card.width}
             height={card.height}
             sizes="(min-width: 1024px) 620px, calc(100vw - 40px)"
-            className={`aspect-[16/9] w-full transition-transform duration-500 ease-out group-hover:scale-[1.015] motion-reduce:transition-none motion-reduce:group-hover:transform-none ${
-              card.fit === "contain" ? "object-contain p-6" : "object-cover"
-            }`}
+            className={`aspect-[16/9] w-full transition-all duration-500 ease-out group-hover:scale-[1.015] motion-reduce:transition-none motion-reduce:group-hover:transform-none ${
+              hover ? "group-hover:opacity-0 group-focus-within:opacity-0" : ""
+            } ${card.fit === "contain" ? "object-contain p-6" : "object-cover"}`}
             style={card.objectPosition ? { objectPosition: card.objectPosition } : undefined}
           />
+          {hover && (
+            <Image
+              src={hover.src}
+              alt=""
+              aria-hidden
+              width={hover.width}
+              height={hover.height}
+              sizes="(min-width: 1024px) 620px, calc(100vw - 40px)"
+              className={`absolute inset-0 aspect-[16/9] w-full opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100 group-focus-within:opacity-100 motion-reduce:transition-none ${
+                hover.fit === "contain" ? "object-contain p-6" : "object-cover"
+              }`}
+              style={hover.objectPosition ? { objectPosition: hover.objectPosition } : undefined}
+            />
+          )}
         </div>
 
         <div className={flipped ? "lg:order-1" : ""}>

@@ -14,7 +14,13 @@ Create `public/images/<slug>/` and put the project's images there.
   size is what gets committed.
 - **Card/hero**: cards display at 16:9. Any aspect ratio works — set
   `objectPosition` to control the crop, or `fit: "contain"` for very wide
-  images (the UAV render uses this).
+  images (the UAV render uses this). Give `card` and `hero` **different**
+  images, and don't repeat the hero inside the page body.
+- **`cardHover`** (optional): a second image cross-faded in on hover/focus
+  of the homepage card. Decorative — it gets an empty alt.
+
+Every figure is automatically clickable into a full-resolution lightbox, so
+never crop a plot, graph or contour to make it fit; show the whole figure.
 - **Open Graph**: a 1280×640 image named `og.png` if you have one.
 
 If you're importing from a source repository, add entries to
@@ -62,7 +68,10 @@ share a structure:
 | Block | Use for |
 |---|---|
 | `text` | Paragraphs. `**bold**`, `*italic*` and `` `code` `` supported. |
-| `figure` / `figurePair` | Images with mono captions. `plate: true` puts white padding behind plots/diagrams. |
+| `figure` / `figurePair` | Images with mono captions. `plate: true` puts white padding behind plots/diagrams. Add `labels: ["Prediction", "Experiment"]` to a pair to head each side. |
+| `figureStrip` | Exactly three figures across — process steps, sequences, damage views. |
+| `gallery` | Compact grid (2 cols mobile, 4 desktop) for supporting evidence. Optional `title`. |
+| `figureAside` | One figure beside prose; `side: "left" \| "right"`. |
 | `stats` | A row of headline numbers. |
 | `flow` | A numbered methodology chain (problem → model → test → …). |
 | `list` | Bulleted items (used for limitations). |

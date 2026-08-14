@@ -40,6 +40,29 @@ export type FigureBlock = {
 export type FigurePairBlock = {
   kind: "figurePair";
   figures: [Figure, Figure];
+  /** Labels rendered above each figure, e.g. ["Prediction", "Experiment"]. */
+  labels?: [string, string];
+};
+
+/** Three figures across — process steps, sequences, damage views. */
+export type FigureStripBlock = {
+  kind: "figureStrip";
+  figures: [Figure, Figure, Figure];
+};
+
+/** Compact grid for supporting evidence; 2 cols mobile, 4 desktop. */
+export type GalleryBlock = {
+  kind: "gallery";
+  title?: string;
+  figures: Figure[];
+};
+
+/** Figure beside prose. `side` sets which edge the image sits on. */
+export type FigureAsideBlock = {
+  kind: "figureAside";
+  figure: Figure;
+  side: "left" | "right";
+  body: string[];
 };
 
 export type StatsBlock = {
@@ -77,6 +100,9 @@ export type Block =
   | TextBlock
   | FigureBlock
   | FigurePairBlock
+  | FigureStripBlock
+  | GalleryBlock
+  | FigureAsideBlock
   | StatsBlock
   | FlowBlock
   | ListBlock
@@ -113,6 +139,8 @@ export interface Project {
     /** "contain" letterboxes on white instead of cropping (default "cover"). */
     fit?: "cover" | "contain";
   };
+  /** Second card image, cross-faded in on hover/focus. Purely decorative. */
+  cardHover?: Figure & { objectPosition?: string; fit?: "cover" | "contain" };
   /** Open Graph image, 1280×640 recommended. Path under /public. */
   ogImage?: string;
 

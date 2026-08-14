@@ -4,22 +4,34 @@ import { formatInline } from "./inline";
 
 /**
  * Renderers for the case-study block model. All server components — the
- * case-study pages ship no client JavaScript beyond the shared reveal hook.
+ * case-study pages ship no client JavaScript beyond the shared reveal hook
+ * and the lightbox listener.
+ *
+ * Every figure is wrapped in a button carrying `data-lightbox`, which the
+ * Lightbox client component upgrades into a full-resolution overlay.
  */
 
 function FigureFrame({
   figure,
   sizes,
   priority = false,
+  /** Constrain tall images so portrait photos don't dominate a row. */
+  maxHeightClass,
 }: {
   figure: Figure;
   sizes: string;
   priority?: boolean;
+  maxHeightClass?: string;
 }) {
   return (
-    <figure>
-      <div
-        className={`overflow-hidden rounded-sm border border-line ${
+    <figure className="flex h-full flex-col">
+      <button
+        type="button"
+        data-lightbox={figure.src}
+        data-lightbox-alt={figure.alt}
+        data-lightbox-caption={figure.caption ?? ""}
+        aria-label={`Enlarge figure: ${figure.alt}`}
+        className={`group relative block w-full cursor-zoom-in overflow-hidden rounded-sm border border-line text-left transition-colors hover:border-line-strong ${
           figure.plate ? "bg-panel p-4 sm:p-6" : "bg-panel"
         }`}
       >
@@ -30,9 +42,18 @@ function FigureFrame({
           height={figure.height}
           sizes={sizes}
           priority={priority}
-          className="h-auto w-full"
+          loading={priority ? undefined : "lazy"}
+          className={`h-auto w-full ${maxHeightClass ?? ""} ${
+            maxHeightClass ? "object-contain" : ""
+          }`}
         />
-      </div>
+        <span
+          aria-hidden
+          className="pointer-events-none absolute bottom-2 right-2 rounded-sm bg-ink/75 px-2 py-1 font-mono text-[10px] uppercase tracking-wider text-paper opacity-0 transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100 motion-reduce:transition-none"
+        >
+          Enlarge
+        </span>
+      </button>
       {figure.caption && (
         <figcaption className="mt-2.5 border-l-2 border-accent/60 pl-3 font-mono text-xs leading-relaxed text-ink-2">
           {figure.caption}
@@ -41,6 +62,23 @@ function FigureFrame({
     </figure>
   );
 }
+
+/** Small mono label used above comparison figures. */
+function CompareLabel({ children }: { children: string }) {
+  return (
+    <p className="mb-2 font-mono text-[11px] uppercase tracking-[0.2em] text-ink-3">
+      {children}
+    </p>
+  );
+}
+
+const PAIR_SIZES =
+  "(min-width: 1152px) 532px, (min-width: 640px) 50vw, calc(100vw - 40px)";
+const FULL_SIZES = "(min-width: 1152px) 1088px, calc(100vw - 40px)";
+const THIRD_SIZES =
+  "(min-width: 1152px) 352px, (min-width: 640px) 33vw, calc(100vw - 40px)";
+const QUARTER_SIZES =
+  "(min-width: 1152px) 262px, (min-width: 640px) 25vw, calc(50vw - 30px)";
 
 export function BlockRenderer({ block }: { block: Block }) {
   switch (block.kind) {
@@ -58,20 +96,74 @@ export function BlockRenderer({ block }: { block: Block }) {
     case "figure":
       return (
         <div className="reveal">
-          <FigureFrame figure={block.figure} sizes="(min-width: 1152px) 1088px, calc(100vw - 40px)" />
+          <FigureFrame figure={block.figure} sizes={FULL_SIZES} />
         </div>
       );
 
     case "figurePair":
       return (
         <div className="reveal grid gap-6 sm:grid-cols-2">
+          {block.figures.map((f, i) => (
+            <div key={f.src}>
+              {block.labels && <CompareLabel>{block.labels[i]}</CompareLabel>}
+              <FigureFrame figure={f} sizes={PAIR_SIZES} maxHeightClass="max-h-[32rem]" />
+            </div>
+          ))}
+        </div>
+      );
+
+    case "figureStrip":
+      return (
+        <div className="reveal grid gap-5 sm:grid-cols-3">
           {block.figures.map((f) => (
             <FigureFrame
               key={f.src}
               figure={f}
-              sizes="(min-width: 1152px) 532px, (min-width: 640px) 50vw, calc(100vw - 40px)"
+              sizes={THIRD_SIZES}
+              maxHeightClass="max-h-80"
             />
           ))}
+        </div>
+      );
+
+    case "gallery":
+      return (
+        <div className="reveal">
+          {block.title && (
+            <p className="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-ink-3">
+              {block.title}
+            </p>
+          )}
+          <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+            {block.figures.map((f) => (
+              <FigureFrame
+                key={f.src}
+                figure={f}
+                sizes={QUARTER_SIZES}
+                maxHeightClass="max-h-64"
+              />
+            ))}
+          </div>
+        </div>
+      );
+
+    case "figureAside":
+      return (
+        <div className="reveal grid items-start gap-7 lg:grid-cols-2 lg:gap-10">
+          <div className={block.side === "right" ? "lg:order-2" : ""}>
+            <FigureFrame
+              figure={block.figure}
+              sizes="(min-width: 1024px) 532px, calc(100vw - 40px)"
+              maxHeightClass="max-h-[30rem]"
+            />
+          </div>
+          <div className={`space-y-4 ${block.side === "right" ? "lg:order-1" : ""}`}>
+            {block.body.map((p, i) => (
+              <p key={i} className="leading-relaxed text-ink-2">
+                {formatInline(p)}
+              </p>
+            ))}
+          </div>
         </div>
       );
 
