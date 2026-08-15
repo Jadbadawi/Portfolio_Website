@@ -1,15 +1,15 @@
 /**
  * Capability groups shown on the homepage. Every entry is evidenced by the
- * public repositories — see docs/content-sources.md before adding to it.
+ * public repositories. See docs/content-sources.md before adding to it.
  */
 export const capabilities = [
   {
     title: "Simulation & Analysis",
     items: [
       "ANSYS Fluent, CFX & Mechanical",
-      "RANS turbulence modelling (k–ε, SST k–ω)",
+      "RANS turbulence modelling (k-ε, SST k-ω)",
       "Rotating reference frames & periodic domains",
-      "One-way fluid–structure interaction",
+      "One-way fluid-structure interaction",
       "Abaqus 3D ply-by-ply finite elements",
       "Verification & validation: Richardson / GCI, y⁺ audits, hand-calculation cross-checks",
     ],
@@ -38,7 +38,7 @@ export const capabilities = [
   {
     title: "Design & Experimentation",
     items: [
-      "Autodesk Inventor — full-vehicle assembly (535 files)",
+      "Autodesk Inventor, including a 535-file full-vehicle assembly",
       "XFoil aerofoil analysis",
       "FDM additive manufacture for flight parts",
       "Wind-tunnel testing with a six-component balance",

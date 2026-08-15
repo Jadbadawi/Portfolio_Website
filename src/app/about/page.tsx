@@ -1,12 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { site } from "@/lib/site";
+import { resumeHref, site } from "@/lib/site";
+import { GitHubIcon, LinkedInIcon } from "@/components/icons";
 
 export const metadata: Metadata = {
   title: "About",
   description:
-    "About Jad El Badaoui — aerospace engineer working across CFD, fluid–structure interaction, composite structures and computational methods.",
+    "About Jad El Badaoui, an aerospace engineer working across CFD, fluid-structure interaction, composite structures and computational methods.",
+  alternates: { canonical: "/about" },
 };
+
+const profileLinkClass =
+  "inline-flex items-center gap-2 text-ink underline decoration-line-strong underline-offset-4 hover:decoration-accent";
 
 export default function AboutPage() {
   return (
@@ -17,7 +22,7 @@ export default function AboutPage() {
             About
           </p>
           <h1 className="mt-4 text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
-            Engineering that survives being checked
+            Simulation, structures and experiment
           </h1>
 
           <div className="mt-8 space-y-5 leading-relaxed text-ink-2">
@@ -25,32 +30,30 @@ export default function AboutPage() {
               I&apos;m an aerospace engineer from the University of Bristol,
               heading to Imperial College London for an MSc in Advanced
               Computational Methods for Aeronautics, Flow Management and
-              Fluid–Structure Interaction. My work sits at the intersection of
-              simulation, structures and experiment — CFD and FEA on one side,
+              Fluid-Structure Interaction. My work sits between simulation,
+              structures and experiment, with CFD and FEA on one side and
               manufacturing and physical testing on the other.
             </p>
             <p>
-              What I care about most is whether a result is <em>trustworthy</em>,
-              not just whether it converged. In practice that means separating
-              verification from validation and doing both explicitly; checking
+              I treat a result as provisional until it has been checked against
+              something independent. In practice that means separating
+              verification from validation and doing both explicitly, checking
               solver output against hand calculations wherever a closed-form
-              check exists; and stating plainly what a model cannot tell you.
-              My CFD repository reports its turbine power coefficient as
-              unconverged, because it is. My UAV project&apos;s most valuable
-              finding is a failure the analysis never predicted — written up
-              rather than hidden.
+              check exists, and saying plainly what a model cannot tell you. My
+              CFD repository reports its turbine power coefficient as
+              unconverged, because it is. The most useful finding in my UAV
+              project is a failure the analysis never predicted, and it is
+              written up rather than left out.
             </p>
             <p>
-              The same instinct extends to how the work is packaged. Each
-              repository carries provenance for its data, automated tests that
-              assert the physical properties the analysis depends on — a
-              symmetric laminate really does produce a zero B matrix — and
-              licences that credit collaborators&apos; contributions explicitly.
-              Reproducibility is an engineering deliverable, not an
-              afterthought.
+              The same applies to how the work is packaged. Each repository
+              carries provenance for its data, automated tests that assert the
+              physical properties the analysis depends on (a symmetric laminate
+              really does produce a zero B matrix), and licences that credit
+              collaborators&apos; contributions explicitly.
             </p>
             <p>
-              Beyond the projects on this site, I&apos;m currently working on
+              Alongside the projects on this site, I&apos;m working on
               FPGA-oriented performance engineering: optimising clustering
               algorithms in C++ with SYCL/DPC++ and Alpaka, working through
               loop-carried dependencies, irregular memory access and on-chip
@@ -58,8 +61,8 @@ export default function AboutPage() {
             </p>
             <p>
               I&apos;m interested in aerospace, propulsion, CFD, simulation and
-              numerical methods — and in roles where the question &ldquo;why
-              should I believe this number?&rdquo; is taken seriously.
+              numerical methods, and in roles where the question of why a
+              number should be believed is taken seriously.
             </p>
           </div>
 
@@ -76,6 +79,15 @@ export default function AboutPage() {
             >
               Email me
             </a>
+            {/* Hidden until the CV is published; see src/lib/site.ts. */}
+            {resumeHref && (
+              <a
+                href={resumeHref}
+                className="rounded-sm border border-line-strong px-5 py-2.5 text-sm font-medium text-ink transition-colors hover:border-ink"
+              >
+                CV (PDF)
+              </a>
+            )}
           </div>
         </div>
 
@@ -104,26 +116,33 @@ export default function AboutPage() {
             <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-ink-3">
               Elsewhere
             </p>
-            <ul className="mt-2 space-y-1.5 text-sm">
+            <ul className="mt-2 space-y-2 text-sm">
               <li>
                 <a
                   href={site.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-ink underline decoration-line-strong underline-offset-4 hover:decoration-accent"
+                  className={profileLinkClass}
                 >
-                  github.com/Jadbadawi
+                  <GitHubIcon className="h-4 w-4 shrink-0" />
+                  GitHub
                 </a>
               </li>
-              {site.linkedin && (
+              <li>
+                <a
+                  href={site.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={profileLinkClass}
+                >
+                  <LinkedInIcon className="h-4 w-4 shrink-0" />
+                  LinkedIn
+                </a>
+              </li>
+              {resumeHref && (
                 <li>
-                  <a
-                    href={site.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-ink underline decoration-line-strong underline-offset-4 hover:decoration-accent"
-                  >
-                    LinkedIn
+                  <a href={resumeHref} className={profileLinkClass}>
+                    CV (PDF)
                   </a>
                 </li>
               )}

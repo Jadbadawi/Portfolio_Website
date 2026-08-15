@@ -2,7 +2,7 @@
  * Data model for project case studies.
  *
  * Each project is a typed object rather than a hard-coded page, so adding a
- * project means adding one data file and its images — see
+ * project means adding one data file and its images. See
  * `docs/adding-a-project.md`. The section/block model is deliberately
  * flexible: projects share a template but are not forced into identical
  * structures, because the engineering story differs between them.
@@ -44,7 +44,7 @@ export type FigurePairBlock = {
   labels?: [string, string];
 };
 
-/** Three figures across — process steps, sequences, damage views. */
+/** Three figures across: process steps, sequences, damage views. */
 export type FigureStripBlock = {
   kind: "figureStrip";
   figures: [Figure, Figure, Figure];
@@ -76,6 +76,18 @@ export type FlowBlock = {
   steps: { title: string; detail?: string }[];
 };
 
+/**
+ * Two-column grid of short technical explanations, rendered as panels.
+ *
+ * Used where the alternative would be a drawn schematic with callout labels.
+ * The text carries the same information, stays selectable and searchable,
+ * and reflows on a phone instead of shrinking to nothing.
+ */
+export type SpecGridBlock = {
+  kind: "specGrid";
+  items: { title: string; body: string }[];
+};
+
 export type ListBlock = {
   kind: "list";
   style?: "plain" | "numbered";
@@ -105,6 +117,7 @@ export type Block =
   | FigureAsideBlock
   | StatsBlock
   | FlowBlock
+  | SpecGridBlock
   | ListBlock
   | TableBlock
   | NoteBlock;
@@ -124,7 +137,7 @@ export interface Project {
   shortTitle?: string;
   /** One-line engineering challenge, shown under the title. */
   tagline: string;
-  /** 1–2 sentence description used on cards and in metadata. */
+  /** One or two sentence description used on cards and in metadata. */
   summary: string;
   category: string;
   period: string;

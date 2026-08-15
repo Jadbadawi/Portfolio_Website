@@ -4,7 +4,7 @@ import Reveal from "./Reveal";
 import { formatInline } from "./inline";
 
 /**
- * Renderers for the case-study block model. All server components — the
+ * Renderers for the case-study block model. All server components: the
  * case-study pages ship no client JavaScript beyond the per-block reveal
  * wrapper and the lightbox listener.
  *
@@ -199,6 +199,25 @@ export function BlockRenderer({ block }: { block: Block }) {
               </li>
             ))}
           </ol>
+        </Reveal>
+      );
+
+    case "specGrid":
+      return (
+        <Reveal>
+          <dl className="grid gap-px overflow-hidden rounded-sm border border-line bg-line sm:grid-cols-2">
+            {block.items.map((item) => (
+              <div key={item.title} className="bg-panel p-6">
+                <dt className="flex items-baseline gap-3 font-medium text-ink">
+                  <span aria-hidden className="h-px w-4 shrink-0 translate-y-[-0.3em] bg-accent" />
+                  {item.title}
+                </dt>
+                <dd className="mt-2 pl-7 text-sm leading-relaxed text-ink-2">
+                  {formatInline(item.body)}
+                </dd>
+              </div>
+            ))}
+          </dl>
         </Reveal>
       );
 

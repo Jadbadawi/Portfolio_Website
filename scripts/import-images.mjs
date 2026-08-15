@@ -34,7 +34,8 @@ const IMAGES = [
   { repo: "cfd", from: "turbine-fsi/06-fea-total-deformation.png", to: "aerospace-cfd-fsi/turbine-fea-deformation.png" },
   { repo: "cfd", from: "naca0012-airfoil/05-cfd-reasoning-chain.png", to: "aerospace-cfd-fsi/reasoning-chain.png" },
   { repo: "cfd", from: "naca0012-airfoil/06-domain-and-boundary-conditions.png", to: "aerospace-cfd-fsi/domain-and-bcs.png" },
-  { repo: "cfd", from: "naca0012-airfoil/07-mesh-strategy.png", to: "aerospace-cfd-fsi/mesh-strategy.png" },
+  // 07-mesh-strategy.png is deliberately not imported: the mesh strategy is
+  // presented as text on the case-study page instead of as a labelled sketch.
   { repo: "cfd", from: "naca0012-airfoil/08-verification-vs-validation.png", to: "aerospace-cfd-fsi/verification-vs-validation.png" },
   { repo: "cfd", from: "naca0012-airfoil/09-near-wall-velocity-laws.png", to: "aerospace-cfd-fsi/near-wall-velocity-laws.png" },
   { repo: "cfd", from: "naca0012-airfoil/10-experimental-cp-reference.png", to: "aerospace-cfd-fsi/experimental-cp-reference.png" },

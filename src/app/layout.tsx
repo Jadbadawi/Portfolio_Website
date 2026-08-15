@@ -17,18 +17,19 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(site.url),
+  metadataBase: new URL(site.siteUrl),
   title: {
-    default: `${site.name} — Aerospace & Computational Engineering`,
-    template: `%s — ${site.name}`,
+    default: `${site.name} | Aerospace & Computational Engineering`,
+    template: `%s | ${site.name}`,
   },
   description: site.description,
+  alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     siteName: site.name,
-    title: `${site.name} — Aerospace & Computational Engineering`,
+    title: `${site.name} | Aerospace & Computational Engineering`,
     description: site.description,
-    url: site.url,
+    url: site.siteUrl,
     images: [{ url: "/images/og-home.png", width: 1280, height: 640 }],
   },
   twitter: {

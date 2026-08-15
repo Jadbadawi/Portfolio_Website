@@ -21,6 +21,7 @@ export async function generateMetadata({
   return {
     title: project.shortTitle ?? project.title,
     description: project.summary,
+    alternates: { canonical: `/projects/${project.slug}` },
     openGraph: {
       title: project.title,
       description: project.summary,
@@ -172,8 +173,8 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
         {/* ------------------------------------------------------ repo link */}
         <div className="border-t border-line py-12">
           <p className="max-w-2xl leading-relaxed text-ink-2">
-            The complete write-up — methods, data, code, provenance and
-            limitations — lives in the repository:
+            The complete write-up lives in the repository: methods, data, code,
+            provenance and limitations.
           </p>
           <a
             href={project.githubUrl}

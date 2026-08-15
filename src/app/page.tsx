@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { featuredProjects } from "@/lib/projects";
 import { capabilities } from "@/lib/capabilities";
-import { site } from "@/lib/site";
+import { resumeHref, site } from "@/lib/site";
 import ProjectCard from "@/components/ProjectCard";
 import Reveal from "@/components/Reveal";
 
@@ -42,15 +42,16 @@ export default function Home() {
                 Jad El Badaoui
               </h1>
               <p className="mt-5 max-w-xl text-lg leading-relaxed text-ink-2 sm:text-xl">
-                Aerospace engineer working across CFD, fluid–structure
+                Aerospace engineer working across CFD, fluid-structure
                 interaction, composite structures and high-performance
                 computing.
               </p>
               <p className="mt-4 max-w-xl leading-relaxed text-ink-2">
-                The thread through my work is whether a result is{" "}
-                <em>trustworthy</em>, not just whether it converged — separating
-                verification from validation, checking numbers against hand
-                calculations, and stating plainly what a model cannot tell you.
+                Most of what I do is about whether a result holds up once it is
+                checked, not just whether it converged. In practice that means
+                separating verification from validation, comparing solver output
+                against hand calculations, and stating what a model cannot tell
+                you.
               </p>
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link
@@ -67,12 +68,13 @@ export default function Home() {
                 >
                   GitHub <span aria-hidden>↗</span>
                 </a>
-                {site.resume && (
+                {/* Hidden until the CV is published; see src/lib/site.ts. */}
+                {resumeHref && (
                   <a
-                    href={site.resume}
+                    href={resumeHref}
                     className="rounded-sm border border-line-strong px-5 py-2.5 text-sm font-medium text-ink transition-colors hover:border-ink"
                   >
-                    Resume (PDF)
+                    CV (PDF)
                   </a>
                 )}
               </div>
@@ -85,7 +87,7 @@ export default function Home() {
                   ["Education", "BEng Aerospace Engineering, University of Bristol"],
                   ["Incoming", "MSc Advanced Computational Methods, Imperial College London"],
                   ["Toolset", "ANSYS Fluent · Abaqus · MATLAB · Python · C++ · SYCL"],
-                  ["Focus", "Simulation you can defend: V&V, hand-checks, stated limitations"],
+                  ["Focus", "Verification and validation, hand-calculation cross-checks, stated limitations"],
                 ].map(([dt, dd]) => (
                   <div key={dt} className="border-b border-line px-5 py-4 last:border-0">
                     <dt className="font-mono text-[11px] uppercase tracking-[0.2em] text-ink-3">
@@ -116,19 +118,19 @@ export default function Home() {
         <div className="mt-10 grid gap-10 lg:grid-cols-[5fr_7fr] lg:gap-16">
           <Reveal>
             <h2 className="text-2xl font-semibold tracking-tight text-ink">
-              Simulation you can defend
+              How the projects are put together
             </h2>
             <p className="mt-4 leading-relaxed text-ink-2">
-              Each of my projects combines at least two of: analytical theory,
+              Each project combines at least two of analytical theory,
               numerical simulation, physical manufacture and experiment. The
-              interesting engineering happens where they disagree — an XFoil
+              useful engineering tends to appear where they disagree: an XFoil
               polar against a wind-tunnel run, a laminate theory prediction
               against a tensile test, a CFD reaction force against a hand
               calculation.
             </p>
             <p className="mt-4 leading-relaxed text-ink-2">
               Every repository documents its own methods, verification,
-              limitations and data provenance — including the results that were
+              limitations and data provenance, including the results that were
               inconclusive and the failure mode nobody predicted.
             </p>
           </Reveal>
@@ -194,7 +196,7 @@ export default function Home() {
               </p>
             </div>
             <p className="mt-6 text-sm leading-relaxed text-ink-2">
-              More about how I work — and what each project taught me — on the{" "}
+              More on how I work, and what each project taught me, on the{" "}
               <Link
                 href="/about"
                 className="text-ink underline decoration-line-strong underline-offset-4 hover:decoration-accent"

@@ -1,6 +1,6 @@
 # Content provenance
 
-Internal file — not linked from the public site. Every factual claim on the
+Internal file, not linked from the public site. Every factual claim on the
 site traces to one of the sources below. If a claim cannot be traced, remove
 it. When editing site copy, keep this file current.
 
@@ -18,13 +18,13 @@ Local clones at the time of writing (paths differ from repo names):
 | Claim | Source |
 |---|---|
 | Name, positioning ("aerospace engineer working on computational engineering…") | Profile README, opening lines |
-| BEng Aerospace Engineering, University of Bristol | Profile README (deliberate decision: the "MEng" in `blood-transport-uav/docs/my-contribution.md` is a known error — do **not** copy it) |
+| BEng Aerospace Engineering, University of Bristol | Profile README (deliberate decision: the "MEng" in `blood-transport-uav/docs/my-contribution.md` is a known error, so do **not** copy it) |
 | Incoming MSc Advanced Computational Methods…, Imperial College London | Profile README |
 | Toolset list (ANSYS Fluent · Abaqus · MATLAB · Python · C++ · SYCL · FPGA) | Profile README |
 | "Trustworthy, not just converged" framing | Profile README, paragraph 2 |
 | FPGA clustering acceleration (in progress, unpublished) | Profile README, "In progress" section |
 | Contact email | Public git commit metadata on all three repositories |
-| LinkedIn | **Not available anywhere public** — config field left empty, do not guess |
+| LinkedIn | Supplied directly by Jad (15 Aug 2026): `https://www.linkedin.com/in/jad-el-badaoui` |
 
 ## Homepage capabilities section (`src/lib/capabilities.ts`)
 
@@ -37,11 +37,11 @@ Every line maps to the "Skills demonstrated" table in
 
 | Claim | Source (in `aerospace-cfd-fsi`) |
 |---|---|
-| CL ≈ 1.06 vs experiment 1.07–1.08, 1.4 % low; thin-aerofoil 1.097 | `README.md` §1 Validation |
+| CL ≈ 1.06 vs experiment 1.07 to 1.08, 1.4 % low; thin-aerofoil 1.097 | `README.md` §1 Validation |
 | Gregory & O'Reilly / Ladson comparison at matched Re and incidence | `README.md` §1 Validation |
 | Mass imbalance 10⁻⁷; residuals ≈10⁻⁶; y⁺ audit; six-case verification matrix | `README.md` §1 verification list; `naca0012-airfoil/README.md` §14.2 |
 | `preanalysis.py` capabilities | `README.md` §2; `tools/preanalysis.py` |
-| Rotating frame, 120° periodic sector, SST k–ω, orthotropic shell | `README.md` §3 |
+| Rotating frame, 120° periodic sector, SST k-ω, orthotropic shell | `README.md` §3 |
 | Tip speed 98.05 vs 98.12 m/s (0.07 %), rotor 44.2 m | `README.md` §3 Fluid domain |
 | Stagnation +199 Pa, suction −395 Pa | `README.md` §3 Sectional aerodynamics |
 | Longitudinal stiffness 15× transverse; tip deflection 0.405 m; 0.92 % of radius | `README.md` §3 Structural response |
@@ -59,14 +59,14 @@ Every line maps to the "Skills demonstrated" table in
 | Identical A matrices asserted by test | `README.md`; `tests/test_clt.py` |
 | Instron 1342 + video gauge; untabbed after tab failures | `README.md` "Manufacturing and testing" |
 | Ply-by-ply 3D FE model, extraction path, S13/S23/S33 at central interface | `README.md` "3D free-edge finite element model" |
-| O'Brien G = 45–254 J/m² vs Gc ≈ 200–500 J/m², three of four below | `README.md` Results / Key findings |
-| Failure strains 1.41–1.53 %, stresses 496–538 MPa; QI–DD difference does not survive Holm | `README.md` Key findings |
+| O'Brien G = 45 to 254 J/m² vs Gc ≈ 200 to 500 J/m², three of four below | `README.md` Results / Key findings |
+| Failure strains 1.41 to 1.53 %, stresses 496 to 538 MPa; QI vs DD difference does not survive Holm | `README.md` Key findings |
 | CLT critical ply strain: QI 1.42 % vs 1.5 % ref; DD 1.16 % | `README.md` "What it says about the coupons" |
 | SEM: QI matrix-dominated at 90° ply; DD fibre fracture all orientations | `README.md` Key findings + Fractography |
 | Grip-failure caveat → comparative interpretation | `README.md` caveat block |
 | 65 automated tests and what they assert | `README.md` Tests section |
-| Compression allowables placeholder; collaborator (Jason Wong) data credit | `README.md` "Notes on tracked content" (site copy says "a collaborator" — repo names him) |
-| Supervisor, unit code, 2025–26 | `README.md` header |
+| Compression allowables placeholder; collaborator (Jason Wong) data credit | `README.md` "Notes on tracked content" (site copy says "a collaborator"; the repo names him) |
+| Supervisor, unit code, 2025/26 | `README.md` header |
 | All images | `figures/` and `manufacturing/images/` (mapping in `scripts/import-images.mjs`) |
 
 ## Blood-Transport UAV (`src/lib/projects/blood-transport-uav.ts`)
@@ -92,7 +92,7 @@ Every line maps to the "Skills demonstrated" table in
 
 Recorded during the July 2026 repository overhaul; flagged to Jad, unresolved:
 
-1. `thin-ply-composite-analysis`: the README says the QI–DD difference did not
+1. `thin-ply-composite-analysis`: the README says the QI vs DD difference did not
    survive Holm correction, but `results/figures/statistics/max_stress_holm_heatmap.png`
    shows dispersed-QI vs blocked-DD at p = 0.005 for max stress. The site follows
    the README wording (failure-strain framing) and shows the failure-strain heatmap.

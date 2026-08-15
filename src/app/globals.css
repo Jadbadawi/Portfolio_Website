@@ -5,9 +5,12 @@
  *
  * A light, technical system: warm off-white paper, near-black ink, and a
  * single restrained signal-orange accent used sparingly (rules, markers,
- * links). Monospace is reserved for "instrument" text — section indices,
- * captions, data labels — which is what gives the site its engineering feel
- * without resorting to gimmicks.
+ * links).
+ *
+ * Two families only, and no italics anywhere. Geist Sans carries all body
+ * copy and headings; Geist Mono is reserved for "instrument" text, meaning
+ * section indices, figure captions and data labels. Nothing else may
+ * introduce a third family or a font-style change.
  */
 :root {
   --paper: #faf9f6;

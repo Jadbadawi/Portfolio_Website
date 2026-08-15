@@ -1,7 +1,7 @@
 # Adding a project
 
-Adding a project never requires touching the layout, components or design —
-one data file, a folder of images, and one line in the registry.
+Adding a project never requires touching the layout, components or design.
+It takes one data file, a folder of images, and one line in the registry.
 
 ## 1. Add the images
 
@@ -9,22 +9,22 @@ Create `public/images/<slug>/` and put the project's images there.
 
 - **Formats**: PNG for plots, diagrams and CAD renders (keeps line work
   crisp); JPEG (quality ~85) for photographs.
-- **Sizes**: aim for 1200–2000 px wide for full-width figures, and keep
+- **Sizes**: aim for 1200 to 2000 px wide for full-width figures, and keep
   files under ~500 KB. Next.js optimises them at serve time, but the source
   size is what gets committed.
-- **Card/hero**: cards display at 16:9. Any aspect ratio works — set
+- **Card/hero**: cards display at 16:9. Any aspect ratio works, so set
   `objectPosition` to control the crop, or `fit: "contain"` for very wide
   images (the UAV render uses this). Give `card` and `hero` **different**
   images, and don't repeat the hero inside the page body.
 - **`cardHover`** (optional): a second image cross-faded in on hover/focus
-  of the homepage card. Decorative — it gets an empty alt.
+  of the homepage card. Decorative, so it gets an empty alt.
 
 Every figure is automatically clickable into a full-resolution lightbox, so
 never crop a plot, graph or contour to make it fit; show the whole figure.
 - **Open Graph**: a 1280×640 image named `og.png` if you have one.
 
 If you're importing from a source repository, add entries to
-`scripts/import-images.mjs` and run `node scripts/import-images.mjs` — it
+`scripts/import-images.mjs` and run `node scripts/import-images.mjs`. It
 resizes, re-encodes and prints the final pixel dimensions you'll need below.
 
 ## 2. Create the data file
@@ -42,9 +42,9 @@ export const myNewProject: Project = {
   slug: "my-new-project",        // becomes /projects/my-new-project
   title: "My New Project",
   tagline: "One-line engineering challenge.",
-  summary: "1–2 sentences for the homepage card and search results.",
+  summary: "One or two sentences for the homepage card and search results.",
   category: "CFD · Machine learning",
-  period: "2026–27",
+  period: "2026/27",
   featured: true,                 // show on the homepage
   order: 4,                       // homepage position (ascending)
   hero: { src: img("hero.png"), alt: "…", width: 1600, height: 900 },
@@ -62,26 +62,27 @@ shift). Optional fields (`card`, `ogImage`, `role`, `stats`,
 
 ### Content blocks
 
-Sections are built from typed blocks, mixed freely — projects don't have to
+Sections are built from typed blocks, mixed freely, and projects don't have to
 share a structure:
 
 | Block | Use for |
 |---|---|
-| `text` | Paragraphs. `**bold**`, `*italic*` and `` `code` `` supported. |
+| `text` | Paragraphs. `**bold**` and `` `code` `` supported. There is no italic span: body copy is upright everywhere. |
 | `figure` / `figurePair` | Images with mono captions. `plate: true` puts white padding behind plots/diagrams. Add `labels: ["Prediction", "Experiment"]` to a pair to head each side. |
-| `figureStrip` | Exactly three figures across — process steps, sequences, damage views. |
+| `figureStrip` | Exactly three figures across: process steps, sequences, damage views. |
 | `gallery` | Compact grid (2 cols mobile, 4 desktop) for supporting evidence. Optional `title`. |
 | `figureAside` | One figure beside prose; `side: "left" \| "right"`. |
 | `stats` | A row of headline numbers. |
 | `flow` | A numbered methodology chain (problem → model → test → …). |
+| `specGrid` | Two-column grid of short technical explanations, for setup detail that would otherwise be drawn as a labelled schematic. |
 | `list` | Bulleted items (used for limitations). |
 | `table` | Small data tables (e.g. reserve factors). |
-| `note` | Callouts — `tone: "caveat"` for limitations, `"insight"` for takeaways. |
+| `note` | Callouts. `tone: "caveat"` for limitations, `"insight"` for takeaways. |
 
 ## 3. Register it
 
 In `src/lib/projects/index.ts`, import the file and add it to the
-`projects` array. Done — the homepage card, case-study page, prev/next
+`projects` array. That is all: the homepage card, case-study page, prev/next
 navigation, sitemap and metadata all follow from the data.
 
 To remove a project from the homepage without deleting its page, set
@@ -108,15 +109,14 @@ errors, broken requests or horizontal overflow. Add the new page to the
 ## 5. Keep provenance
 
 Add a section to `docs/content-sources.md` recording where each factual
-claim and image came from. That file is the reason the site can be trusted —
+claim and image came from. That file is the reason the site can be trusted:
 don't let it rot.
 
-## Activating the resume / LinkedIn
+## Activating the CV
 
-In `src/lib/site.ts`:
+In `src/lib/site.ts`, drop the PDF at `public/Jad-El-Badaoui-CV.pdf` and set
+`resumeAvailable: true`. The header, hero, About and footer links then appear
+automatically. Until then they are not rendered at all, so there is no link
+to a missing file. See the README for the full procedure.
 
-- **Resume**: drop the PDF at `public/Jad-El-Badaoui-CV.pdf` and set
-  `resume: "/Jad-El-Badaoui-CV.pdf"`. Header, hero and footer links appear
-  automatically.
-- **LinkedIn**: set `linkedin: "https://www.linkedin.com/in/…"`. Footer and
-  about-page links appear automatically.
+LinkedIn and GitHub are already configured in the same file.

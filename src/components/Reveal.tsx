@@ -14,7 +14,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
  * Content is only hidden once an observer is actually watching it ("armed"),
  * and it is never armed if the observer cannot be created. Without JS, with
  * prefers-reduced-motion, or if anything goes wrong, the server-rendered
- * markup simply stays visible — the animation can never strand content.
+ * markup simply stays visible, so the animation can never strand content.
  */
 export default function Reveal({
   className,
@@ -39,14 +39,14 @@ export default function Reveal({
     }
 
     // Anything already on (or above) the screen at mount stays visible
-    // rather than animating in — this is what makes a fresh page load or a
+    // rather than animating in. This is what makes a fresh page load or a
     // restored scroll position appear immediately instead of fading.
     if (el.getBoundingClientRect().top < window.innerHeight) return;
 
     setPhase("armed");
     // Default root and margin: anything touching the viewport reveals. A
     // negative bottom margin would leave a strip at the foot of the page in
-    // which an element can never intersect — and so could stay hidden for
+    // which an element can never intersect, and so could stay hidden for
     // good if the page ends there.
     const observer = new IntersectionObserver((entries) => {
       if (entries.some((entry) => entry.isIntersecting)) {

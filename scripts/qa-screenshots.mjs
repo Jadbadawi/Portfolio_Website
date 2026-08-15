@@ -5,7 +5,7 @@
  * checks for accidental horizontal overflow.
  *
  * Note: Chrome cannot capture a single screenshot taller than ~16,384 px.
- * Pages longer than that wrap around and appear to repeat their own content —
+ * Pages longer than that wrap around and appear to repeat their own content:
  * a capture artefact, not a page bug. Check `h1` counts before believing it.
  *
  * Run:  node scripts/qa-screenshots.mjs <output-dir>
@@ -71,7 +71,7 @@ for (const [vpName, viewport] of viewports) {
     });
     await page.waitForLoadState("networkidle");
 
-    // Wait for every image to finish decoding so the page height is stable —
+    // Wait for every image to finish decoding so the page height is stable, because
     // otherwise the full-page screenshot stitches shifting layout together.
     await page.waitForFunction(
       () => Array.from(document.images).every((i) => i.complete && i.naturalWidth > 0),

@@ -1,7 +1,7 @@
 /**
  * Navigation QA: drives real Chrome through client-side route changes and
  * asserts that every image on each page both LOADS and is actually VISIBLE
- * (no opacity-0 ancestor) after scrolling to the bottom — without refreshing.
+ * (no opacity-0 ancestor) after scrolling to the bottom, without refreshing.
  *
  * Run:  node scripts/nav-qa.mjs   (with npm run start already running)
  */
@@ -209,7 +209,7 @@ for (const [vpName, viewport] of [
   await auditImages(rmPage, "CFD (reduced motion, client-side nav)");
   await rmContext.close();
 
-  // 8. JavaScript disabled — content must remain visible
+  // 8. JavaScript disabled: content must remain visible
   note("\n8. JavaScript disabled (direct load)");
   const nojs = await browser.newContext({ viewport, javaScriptEnabled: false });
   const nojsPage = await nojs.newPage();

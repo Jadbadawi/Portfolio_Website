@@ -1,4 +1,8 @@
-import { site } from "@/lib/site";
+import { resumeHref, site } from "@/lib/site";
+import { GitHubIcon, LinkedInIcon } from "./icons";
+
+const linkClass =
+  "inline-flex items-center gap-2 text-ink underline decoration-line-strong underline-offset-4 transition-colors hover:decoration-accent";
 
 export default function SiteFooter() {
   return (
@@ -19,10 +23,7 @@ export default function SiteFooter() {
           </div>
           <ul className="flex flex-wrap gap-x-8 gap-y-3 text-sm">
             <li>
-              <a
-                href={`mailto:${site.email}`}
-                className="text-ink underline decoration-line-strong underline-offset-4 transition-colors hover:decoration-accent"
-              >
+              <a href={`mailto:${site.email}`} className={linkClass}>
                 {site.email}
               </a>
             </li>
@@ -31,30 +32,28 @@ export default function SiteFooter() {
                 href={site.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-ink underline decoration-line-strong underline-offset-4 transition-colors hover:decoration-accent"
+                className={linkClass}
               >
+                <GitHubIcon className="h-4 w-4 shrink-0" />
                 GitHub
               </a>
             </li>
-            {site.linkedin && (
+            <li>
+              <a
+                href={site.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={linkClass}
+              >
+                <LinkedInIcon className="h-4 w-4 shrink-0" />
+                LinkedIn
+              </a>
+            </li>
+            {/* Hidden entirely until the CV is published; see src/lib/site.ts. */}
+            {resumeHref && (
               <li>
-                <a
-                  href={site.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-ink underline decoration-line-strong underline-offset-4 transition-colors hover:decoration-accent"
-                >
-                  LinkedIn
-                </a>
-              </li>
-            )}
-            {site.resume && (
-              <li>
-                <a
-                  href={site.resume}
-                  className="text-ink underline decoration-line-strong underline-offset-4 transition-colors hover:decoration-accent"
-                >
-                  Resume (PDF)
+                <a href={resumeHref} className={linkClass}>
+                  CV (PDF)
                 </a>
               </li>
             )}
@@ -62,7 +61,7 @@ export default function SiteFooter() {
         </div>
         <div className="mt-12 flex flex-col gap-2 border-t border-line pt-6 font-mono text-xs text-ink-3 sm:flex-row sm:justify-between">
           <p>© {new Date().getFullYear()} Jad El Badaoui</p>
-          <p>Every figure on this site is real project output — sources on GitHub.</p>
+          <p>Every figure on this site is output from the projects themselves.</p>
         </div>
       </div>
     </footer>

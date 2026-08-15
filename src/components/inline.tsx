@@ -1,12 +1,15 @@
 import type { ReactNode } from "react";
 
 /**
- * Minimal inline formatting for data-file copy: **bold**, *italic* and
- * `code`. Deliberately not a Markdown parser — just the three spans the
- * project data actually uses.
+ * Minimal inline formatting for data-file copy: `**bold**` and `` `code` ``.
+ * Deliberately not a Markdown parser, just the two spans the project data
+ * actually uses.
+ *
+ * There is no italic span on purpose. Body copy across the site is set
+ * upright; emphasis is carried by weight and by wording instead.
  */
 export function formatInline(text: string): ReactNode[] {
-  const parts = text.split(/(\*\*[^*]+\*\*|\*[^*]+\*|`[^`]+`)/g);
+  const parts = text.split(/(\*\*[^*]+\*\*|`[^`]+`)/g);
   return parts.map((part, i) => {
     if (part.startsWith("**") && part.endsWith("**")) {
       return (
@@ -14,9 +17,6 @@ export function formatInline(text: string): ReactNode[] {
           {part.slice(2, -2)}
         </strong>
       );
-    }
-    if (part.startsWith("*") && part.endsWith("*") && part.length > 2) {
-      return <em key={i}>{part.slice(1, -1)}</em>;
     }
     if (part.startsWith("`") && part.endsWith("`")) {
       return (
