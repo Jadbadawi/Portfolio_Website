@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="8" fill="#191a1e"/>
+  <!-- NACA-style aerofoil silhouette -->
+  <path d="M8 38 C 14 26, 26 22, 40 24 C 50 25.5, 57 29, 57 31 C 57 32.5, 50 33.5, 40 33 C 26 32.5, 14 40, 8 38 Z" fill="#faf9f6"/>
+  <path d="M8 46 H 57" stroke="#b3400d" stroke-width="3" stroke-linecap="round"/>
+</svg>

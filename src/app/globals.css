@@ -1,0 +1,124 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens.
+ *
+ * A light, technical system: warm off-white paper, near-black ink, and a
+ * single restrained signal-orange accent used sparingly (rules, markers,
+ * links). Monospace is reserved for "instrument" text — section indices,
+ * captions, data labels — which is what gives the site its engineering feel
+ * without resorting to gimmicks.
+ */
+:root {
+  --paper: #faf9f6;
+  --panel: #ffffff;
+  --ink: #191a1e;
+  --ink-2: #4d5058;
+  --ink-3: #82858d;
+  --line: #e4e2da;
+  --line-strong: #cfcdc4;
+  --accent: #b3400d;
+  --accent-strong: #93340a;
+  --accent-soft: #f6e7dd;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-panel: var(--panel);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-soft: var(--accent-soft);
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--accent-soft);
+  color: var(--ink);
+}
+
+/* Visible focus for keyboard users, invisible for pointer users. */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ------------------------------------------------------------- reveal
+ * Scroll-reveal. Both classes are applied by the Reveal component, and
+ * `reveal-armed` is only ever applied once that element has a live
+ * IntersectionObserver watching it. Server-rendered markup carries neither
+ * class, so without JS the content is simply visible.
+ */
+.reveal-armed {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal-armed.reveal-shown {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-armed {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ----------------------------------------------------------- lightbox
+ * Styled here rather than with Tailwind's `backdrop:` variant so the
+ * native ::backdrop pseudo-element is reliably targeted.
+ */
+dialog.lightbox {
+  position: fixed;
+  inset: 0;
+  max-width: 100vw;
+  max-height: 100dvh;
+  width: 100vw;
+  height: 100dvh;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  overflow: hidden;
+}
+
+dialog.lightbox::backdrop {
+  background: rgba(18, 19, 22, 0.92);
+}
+
+/* Fine blueprint-style grid used behind the hero. */
+.technical-grid {
+  background-image:
+    linear-gradient(to right, rgba(25, 26, 30, 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(25, 26, 30, 0.045) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: linear-gradient(to bottom, black 0%, black 55%, transparent 100%);
+}
