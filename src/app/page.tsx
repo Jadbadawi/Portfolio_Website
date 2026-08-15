@@ -3,6 +3,7 @@ import { featuredProjects } from "@/lib/projects";
 import { capabilities } from "@/lib/capabilities";
 import { site } from "@/lib/site";
 import ProjectCard from "@/components/ProjectCard";
+import Reveal from "@/components/Reveal";
 
 function SectionHeading({
   index,
@@ -113,7 +114,7 @@ export default function Home() {
       <section className="mx-auto max-w-6xl px-5 py-16 sm:px-8">
         <SectionHeading index="02" title="Engineering profile" />
         <div className="mt-10 grid gap-10 lg:grid-cols-[5fr_7fr] lg:gap-16">
-          <div className="reveal">
+          <Reveal>
             <h2 className="text-2xl font-semibold tracking-tight text-ink">
               Simulation you can defend
             </h2>
@@ -130,8 +131,8 @@ export default function Home() {
               limitations and data provenance — including the results that were
               inconclusive and the failure mode nobody predicted.
             </p>
-          </div>
-          <div className="reveal grid gap-px overflow-hidden rounded-sm border border-line bg-line sm:grid-cols-2">
+          </Reveal>
+          <Reveal className="grid gap-px overflow-hidden rounded-sm border border-line bg-line sm:grid-cols-2">
             {capabilities.map((group) => (
               <div key={group.title} className="bg-panel p-6">
                 <h3 className="font-medium text-ink">{group.title}</h3>
@@ -145,7 +146,7 @@ export default function Home() {
                 </ul>
               </div>
             ))}
-          </div>
+          </Reveal>
         </div>
       </section>
 
@@ -153,7 +154,7 @@ export default function Home() {
       <section className="mx-auto max-w-6xl px-5 pb-20 sm:px-8">
         <SectionHeading index="03" title="Education & current work" />
         <div className="mt-10 grid gap-10 lg:grid-cols-2 lg:gap-16">
-          <div className="reveal space-y-8">
+          <Reveal className="space-y-8">
             {site.education.map((e) => (
               <div key={e.degree} className="flex gap-5">
                 <span aria-hidden className="mt-2.5 h-px w-6 shrink-0 bg-accent" />
@@ -181,8 +182,8 @@ export default function Home() {
                 </div>
               </div>
             ))}
-          </div>
-          <div className="reveal">
+          </Reveal>
+          <Reveal>
             <div className="rounded-sm border border-line bg-panel p-6">
               <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-ink-3">
                 In progress
@@ -202,7 +203,7 @@ export default function Home() {
               </Link>
               .
             </p>
-          </div>
+          </Reveal>
         </div>
       </section>
     </>

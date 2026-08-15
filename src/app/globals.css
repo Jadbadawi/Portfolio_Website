@@ -67,11 +67,12 @@ body {
 }
 
 /* ------------------------------------------------------------- reveal
- * Scroll-reveal: elements start hidden only when JS has confirmed it will
- * reveal them (html.js-reveal), so the site is fully visible without JS.
- * prefers-reduced-motion disables the whole mechanism.
+ * Scroll-reveal. Both classes are applied by the Reveal component, and
+ * `reveal-armed` is only ever applied once that element has a live
+ * IntersectionObserver watching it. Server-rendered markup carries neither
+ * class, so without JS the content is simply visible.
  */
-html.js-reveal .reveal {
+.reveal-armed {
   opacity: 0;
   transform: translateY(14px);
   transition:
@@ -79,13 +80,13 @@ html.js-reveal .reveal {
     transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-html.js-reveal .reveal.is-visible {
+.reveal-armed.reveal-shown {
   opacity: 1;
   transform: none;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html.js-reveal .reveal {
+  .reveal-armed {
     opacity: 1;
     transform: none;
     transition: none;

@@ -1,11 +1,12 @@
 import Image from "next/image";
 import type { Block, Figure } from "@/lib/projects/types";
+import Reveal from "./Reveal";
 import { formatInline } from "./inline";
 
 /**
  * Renderers for the case-study block model. All server components — the
- * case-study pages ship no client JavaScript beyond the shared reveal hook
- * and the lightbox listener.
+ * case-study pages ship no client JavaScript beyond the per-block reveal
+ * wrapper and the lightbox listener.
  *
  * Every figure is wrapped in a button carrying `data-lightbox`, which the
  * Lightbox client component upgrades into a full-resolution overlay.
@@ -14,13 +15,11 @@ import { formatInline } from "./inline";
 function FigureFrame({
   figure,
   sizes,
-  priority = false,
   /** Constrain tall images so portrait photos don't dominate a row. */
   maxHeightClass,
 }: {
   figure: Figure;
   sizes: string;
-  priority?: boolean;
   maxHeightClass?: string;
 }) {
   return (
@@ -41,8 +40,6 @@ function FigureFrame({
           width={figure.width}
           height={figure.height}
           sizes={sizes}
-          priority={priority}
-          loading={priority ? undefined : "lazy"}
           className={`h-auto w-full ${maxHeightClass ?? ""} ${
             maxHeightClass ? "object-contain" : ""
           }`}
@@ -95,26 +92,26 @@ export function BlockRenderer({ block }: { block: Block }) {
 
     case "figure":
       return (
-        <div className="reveal">
+        <Reveal>
           <FigureFrame figure={block.figure} sizes={FULL_SIZES} />
-        </div>
+        </Reveal>
       );
 
     case "figurePair":
       return (
-        <div className="reveal grid gap-6 sm:grid-cols-2">
+        <Reveal className="grid gap-6 sm:grid-cols-2">
           {block.figures.map((f, i) => (
             <div key={f.src}>
               {block.labels && <CompareLabel>{block.labels[i]}</CompareLabel>}
               <FigureFrame figure={f} sizes={PAIR_SIZES} maxHeightClass="max-h-[32rem]" />
             </div>
           ))}
-        </div>
+        </Reveal>
       );
 
     case "figureStrip":
       return (
-        <div className="reveal grid gap-5 sm:grid-cols-3">
+        <Reveal className="grid gap-5 sm:grid-cols-3">
           {block.figures.map((f) => (
             <FigureFrame
               key={f.src}
@@ -123,12 +120,12 @@ export function BlockRenderer({ block }: { block: Block }) {
               maxHeightClass="max-h-80"
             />
           ))}
-        </div>
+        </Reveal>
       );
 
     case "gallery":
       return (
-        <div className="reveal">
+        <Reveal>
           {block.title && (
             <p className="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-ink-3">
               {block.title}
@@ -144,12 +141,12 @@ export function BlockRenderer({ block }: { block: Block }) {
               />
             ))}
           </div>
-        </div>
+        </Reveal>
       );
 
     case "figureAside":
       return (
-        <div className="reveal grid items-start gap-7 lg:grid-cols-2 lg:gap-10">
+        <Reveal className="grid items-start gap-7 lg:grid-cols-2 lg:gap-10">
           <div className={block.side === "right" ? "lg:order-2" : ""}>
             <FigureFrame
               figure={block.figure}
@@ -164,41 +161,45 @@ export function BlockRenderer({ block }: { block: Block }) {
               </p>
             ))}
           </div>
-        </div>
+        </Reveal>
       );
 
     case "stats":
       return (
-        <dl className="reveal grid grid-cols-2 gap-px overflow-hidden rounded-sm border border-line bg-line lg:grid-cols-4">
-          {block.items.map((s) => (
-            <div key={s.label} className="bg-panel p-5">
-              <dd className="text-2xl font-semibold tracking-tight text-ink">{s.value}</dd>
-              <dt className="mt-1 text-sm text-ink-2">{s.label}</dt>
-              {s.detail && (
-                <p className="mt-2 font-mono text-xs leading-relaxed text-ink-3">{s.detail}</p>
-              )}
-            </div>
-          ))}
-        </dl>
+        <Reveal>
+          <dl className="grid grid-cols-2 gap-px overflow-hidden rounded-sm border border-line bg-line lg:grid-cols-4">
+            {block.items.map((s) => (
+              <div key={s.label} className="bg-panel p-5">
+                <dd className="text-2xl font-semibold tracking-tight text-ink">{s.value}</dd>
+                <dt className="mt-1 text-sm text-ink-2">{s.label}</dt>
+                {s.detail && (
+                  <p className="mt-2 font-mono text-xs leading-relaxed text-ink-3">{s.detail}</p>
+                )}
+              </div>
+            ))}
+          </dl>
+        </Reveal>
       );
 
     case "flow":
       return (
-        <ol className="reveal grid gap-px overflow-hidden rounded-sm border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
-          {block.steps.map((step, i) => (
-            <li key={step.title} className="bg-panel p-5">
-              <div className="flex items-baseline gap-3">
-                <span className="font-mono text-xs text-accent">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <h4 className="font-medium text-ink">{step.title}</h4>
-              </div>
-              {step.detail && (
-                <p className="mt-1.5 pl-8 text-sm leading-relaxed text-ink-2">{step.detail}</p>
-              )}
-            </li>
-          ))}
-        </ol>
+        <Reveal>
+          <ol className="grid gap-px overflow-hidden rounded-sm border border-line bg-line sm:grid-cols-2 lg:grid-cols-3">
+            {block.steps.map((step, i) => (
+              <li key={step.title} className="bg-panel p-5">
+                <div className="flex items-baseline gap-3">
+                  <span className="font-mono text-xs text-accent">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <h4 className="font-medium text-ink">{step.title}</h4>
+                </div>
+                {step.detail && (
+                  <p className="mt-1.5 pl-8 text-sm leading-relaxed text-ink-2">{step.detail}</p>
+                )}
+              </li>
+            ))}
+          </ol>
+        </Reveal>
       );
 
     case "list":
@@ -215,42 +216,46 @@ export function BlockRenderer({ block }: { block: Block }) {
 
     case "table":
       return (
-        <figure className="reveal max-w-2xl">
-          <div className="overflow-x-auto rounded-sm border border-line">
-            <table className="w-full border-collapse bg-panel text-sm">
-              <thead>
-                <tr className="border-b border-line-strong">
-                  {block.head.map((h) => (
-                    <th
-                      key={h}
-                      scope="col"
-                      className="px-4 py-2.5 text-left font-mono text-xs font-medium uppercase tracking-wider text-ink-3"
-                    >
-                      {h}
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {block.rows.map((row, i) => (
-                  <tr key={i} className="border-b border-line last:border-0">
-                    {row.map((cell, j) => (
-                      <td
-                        key={j}
-                        className={`px-4 py-2 ${j === row.length - 1 ? "font-mono text-ink" : "text-ink-2"}`}
+        <Reveal>
+          <figure className="max-w-2xl">
+            <div className="overflow-x-auto rounded-sm border border-line">
+              <table className="w-full border-collapse bg-panel text-sm">
+                <thead>
+                  <tr className="border-b border-line-strong">
+                    {block.head.map((h) => (
+                      <th
+                        key={h}
+                        scope="col"
+                        className="px-4 py-2.5 text-left font-mono text-xs font-medium uppercase tracking-wider text-ink-3"
                       >
-                        {cell}
-                      </td>
+                        {h}
+                      </th>
                     ))}
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          {block.caption && (
-            <figcaption className="mt-2.5 font-mono text-xs text-ink-2">{block.caption}</figcaption>
-          )}
-        </figure>
+                </thead>
+                <tbody>
+                  {block.rows.map((row, i) => (
+                    <tr key={i} className="border-b border-line last:border-0">
+                      {row.map((cell, j) => (
+                        <td
+                          key={j}
+                          className={`px-4 py-2 ${j === row.length - 1 ? "font-mono text-ink" : "text-ink-2"}`}
+                        >
+                          {cell}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            {block.caption && (
+              <figcaption className="mt-2.5 font-mono text-xs text-ink-2">
+                {block.caption}
+              </figcaption>
+            )}
+          </figure>
+        </Reveal>
       );
 
     case "note":

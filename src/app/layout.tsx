@@ -4,7 +4,6 @@ import "./globals.css";
 import { site } from "@/lib/site";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
-import Reveal from "@/components/Reveal";
 import Lightbox from "@/components/Lightbox";
 
 const geistSans = Geist({
@@ -41,6 +40,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
+      // globals.css sets `scroll-behavior: smooth` for in-page anchors; this
+      // tells Next to still jump instantly on route changes rather than
+      // animating the scroll reset. See Next 16 upgrade guide.
+      data-scroll-behavior="smooth"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
@@ -55,7 +58,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           {children}
         </main>
         <SiteFooter />
-        <Reveal />
         <Lightbox />
       </body>
     </html>

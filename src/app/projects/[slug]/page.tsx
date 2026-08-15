@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getAdjacentProjects, getProject, projects } from "@/lib/projects";
 import { BlockRenderer } from "@/components/blocks";
+import Reveal from "@/components/Reveal";
 
 export function generateStaticParams() {
   return projects.map((p) => ({ slug: p.slug }));
@@ -102,7 +103,7 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
               width={project.hero.width}
               height={project.hero.height}
               sizes="(min-width: 1152px) 1088px, calc(100vw - 40px)"
-              priority
+              preload
               className="h-auto w-full"
             />
           </div>
@@ -150,7 +151,7 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
         {/* -------------------------------------------------------- sections */}
         {project.sections.map((section, i) => (
           <section key={section.id} id={section.id} className="scroll-mt-20 py-12 sm:py-14">
-            <div className="reveal">
+            <Reveal>
               <p className="font-mono text-xs uppercase tracking-[0.2em] text-ink-3">
                 <span className="text-accent">{String(i + 1).padStart(2, "0")}</span>
                 {section.kicker && `  /  ${section.kicker}`}
@@ -159,7 +160,7 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
                 {section.title}
               </h2>
               <div className="mt-4 h-px w-full bg-line" />
-            </div>
+            </Reveal>
             <div className="mt-8 space-y-8">
               {section.blocks.map((block, j) => (
                 <BlockRenderer key={j} block={block} />
