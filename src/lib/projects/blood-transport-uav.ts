@@ -13,7 +13,7 @@ export const bloodTransportUav: Project = {
   category: "Design · Structures · Test",
   period: "2024/25 · AVDASI 2, University of Bristol",
   featured: true,
-  order: 3,
+  order: 4,
 
   hero: {
     src: img("uav-assembly-front.png"),

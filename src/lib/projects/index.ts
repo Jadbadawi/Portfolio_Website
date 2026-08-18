@@ -2,12 +2,14 @@ import type { Project } from "./types";
 import { aerospaceCfdFsi } from "./aerospace-cfd-fsi";
 import { thinPlyCompositeAnalysis } from "./thin-ply-composite-analysis";
 import { bloodTransportUav } from "./blood-transport-uav";
+import { waxwingAirbrakeAerodynamics } from "./waxwing-airbrake-aerodynamics";
 
 export type { Project, Section, Block, Figure, Stat } from "./types";
 
 /** All projects, sorted by display order. Register new projects here. */
 export const projects: Project[] = [
   aerospaceCfdFsi,
+  waxwingAirbrakeAerodynamics,
   thinPlyCompositeAnalysis,
   bloodTransportUav,
 ].sort((a, b) => a.order - b.order);

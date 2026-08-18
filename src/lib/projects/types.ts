@@ -162,7 +162,12 @@ export interface Project {
   /** Optional role note, for team projects. */
   role?: string;
 
-  githubUrl: string;
+  /**
+   * Repository URL. Optional: team projects done outside a public repo (e.g.
+   * competition work owned by the society) have no repository to link, and
+   * inventing one would misrepresent where the work lives.
+   */
+  githubUrl?: string;
   externalLinks?: { label: string; url: string }[];
 
   /** Headline numbers shown at the top of the case study. */

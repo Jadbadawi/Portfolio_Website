@@ -62,14 +62,16 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
           </p>
 
           <div className="mt-7 flex flex-wrap items-center gap-x-8 gap-y-4">
-            <a
-              href={project.githubUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-sm bg-ink px-4 py-2 text-sm font-medium text-paper transition-colors hover:bg-accent-strong"
-            >
-              Repository on GitHub <span aria-hidden>↗</span>
-            </a>
+            {project.githubUrl && (
+              <a
+                href={project.githubUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rounded-sm bg-ink px-4 py-2 text-sm font-medium text-paper transition-colors hover:bg-accent-strong"
+              >
+                Repository on GitHub <span aria-hidden>↗</span>
+              </a>
+            )}
             <ul className="flex flex-wrap gap-x-2 gap-y-2">
               {project.tools.map((t) => (
                 <li
@@ -171,20 +173,23 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
         ))}
 
         {/* ------------------------------------------------------ repo link */}
-        <div className="border-t border-line py-12">
-          <p className="max-w-2xl leading-relaxed text-ink-2">
-            The complete write-up lives in the repository: methods, data, code,
-            provenance and limitations.
-          </p>
-          <a
-            href={project.githubUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-4 inline-block rounded-sm border border-line-strong px-5 py-2.5 text-sm font-medium text-ink transition-colors hover:border-ink"
-          >
-            {project.githubUrl.replace("https://", "")} <span aria-hidden>↗</span>
-          </a>
-        </div>
+        {project.githubUrl && (
+          <div className="border-t border-line py-12">
+            <p className="max-w-2xl leading-relaxed text-ink-2">
+              The complete write-up lives in the repository: methods, data, code,
+              provenance and limitations.
+            </p>
+            <a
+              href={project.githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-4 inline-block rounded-sm border border-line-strong px-5 py-2.5 text-sm font-medium text-ink transition-colors hover:border-ink"
+            >
+              {project.githubUrl.replace("https://", "")}{" "}
+              <span aria-hidden>↗</span>
+            </a>
+          </div>
+        )}
       </div>
 
       {/* ------------------------------------------------------- prev/next */}

@@ -21,6 +21,7 @@ const pages = [
   ["home", "http://localhost:3000/"],
   ["about", "http://localhost:3000/about"],
   ["cfd", "http://localhost:3000/projects/aerospace-cfd-fsi"],
+  ["waxwing", "http://localhost:3000/projects/waxwing-airbrake-aerodynamics"],
   ["ply", "http://localhost:3000/projects/thin-ply-composite-analysis"],
   ["uav", "http://localhost:3000/projects/blood-transport-uav"],
   ["404", "http://localhost:3000/no-such-page"],
