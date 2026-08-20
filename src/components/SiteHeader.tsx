@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { resumeHref, site } from "@/lib/site";
+import { hasResumes, resumeSectionHref, site } from "@/lib/site";
 import { GitHubIcon, LinkedInIcon } from "./icons";
 
 const links = [
@@ -56,15 +56,15 @@ export default function SiteHeader() {
                 </Link>
               </li>
             ))}
-            {/* Hidden entirely until the CV is published; see src/lib/site.ts. */}
-            {resumeHref && (
+            {/* Hidden entirely while there is no CV; see src/lib/site.ts. */}
+            {hasResumes && (
               <li>
-                <a
-                  href={resumeHref}
+                <Link
+                  href={resumeSectionHref}
                   className="text-sm text-ink-2 transition-colors hover:text-ink"
                 >
                   CV
-                </a>
+                </Link>
               </li>
             )}
             <li className="hidden sm:block">

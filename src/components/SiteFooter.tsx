@@ -1,4 +1,4 @@
-import { resumeHref, site } from "@/lib/site";
+import { hasResumes, resumeSectionHref, site } from "@/lib/site";
 import { GitHubIcon, LinkedInIcon } from "./icons";
 
 const linkClass =
@@ -49,11 +49,11 @@ export default function SiteFooter() {
                 LinkedIn
               </a>
             </li>
-            {/* Hidden entirely until the CV is published; see src/lib/site.ts. */}
-            {resumeHref && (
+            {/* Hidden entirely while there is no CV; see src/lib/site.ts. */}
+            {hasResumes && (
               <li>
-                <a href={resumeHref} className={linkClass}>
-                  CV (PDF)
+                <a href={resumeSectionHref} className={linkClass}>
+                  CV
                 </a>
               </li>
             )}

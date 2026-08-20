@@ -1,20 +1,43 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { IBM_Plex_Mono, Inter, Newsreader } from "next/font/google";
 import "./globals.css";
 import { site } from "@/lib/site";
 import SiteHeader from "@/components/SiteHeader";
 import SiteFooter from "@/components/SiteFooter";
 import Lightbox from "@/components/Lightbox";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+/*
+ * Typefaces.
+ *
+ * Three families, each with one job:
+ *
+ *   Newsreader   Display. A serif carries the headings, which is what gives
+ *                the site its voice and keeps it from reading as a template.
+ *   Inter        Body copy.
+ *   IBM Plex Mono  "Instrument" text only: section indices, figure captions,
+ *                data labels, equations.
+ *
+ * The site previously ran on Geist Sans and Geist Mono. Both are decent, but
+ * they are the Next.js starter defaults, so a site using them looks like a
+ * template nobody chose. Do not reintroduce them, and do not add a fourth
+ * family. There are no italics anywhere: emphasis is weight and wording.
+ */
+const newsreader = Newsreader({
+  variable: "--font-newsreader",
   subsets: ["latin"],
+});
+const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
+const ibmPlexMono = IBM_Plex_Mono({
+  variable: "--font-ibm-plex-mono",
+  subsets: ["latin"],
+  weight: ["400", "500"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+const fontVariables = [
+  newsreader.variable,
+  inter.variable,
+  ibmPlexMono.variable,
+].join(" ");
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.siteUrl),
@@ -45,7 +68,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       // tells Next to still jump instantly on route changes rather than
       // animating the scroll reset. See Next 16 upgrade guide.
       data-scroll-behavior="smooth"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${fontVariables} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col">
         <a

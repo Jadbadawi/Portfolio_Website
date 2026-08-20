@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { resumeHref, site } from "@/lib/site";
+import { resumes, site } from "@/lib/site";
 import { GitHubIcon, LinkedInIcon } from "@/components/icons";
 
 export const metadata: Metadata = {
@@ -82,15 +82,16 @@ export default function AboutPage() {
             >
               Email me
             </a>
-            {/* Hidden until the CV is published; see src/lib/site.ts. */}
-            {resumeHref && (
+            {/* One per CV; nothing renders while the list is empty. */}
+            {resumes.map((cv) => (
               <a
-                href={resumeHref}
+                key={cv.url}
+                href={cv.url}
                 className="rounded-sm border border-line-strong px-5 py-2.5 text-sm font-medium text-ink transition-colors hover:border-ink"
               >
-                CV (PDF)
+                CV: {cv.label}
               </a>
-            )}
+            ))}
           </div>
         </div>
 
@@ -142,13 +143,13 @@ export default function AboutPage() {
                   LinkedIn
                 </a>
               </li>
-              {resumeHref && (
-                <li>
-                  <a href={resumeHref} className={profileLinkClass}>
-                    CV (PDF)
+              {resumes.map((cv) => (
+                <li key={cv.url}>
+                  <a href={cv.url} className={profileLinkClass}>
+                    CV: {cv.label}
                   </a>
                 </li>
-              )}
+              ))}
             </ul>
           </div>
         </aside>

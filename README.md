@@ -35,7 +35,7 @@ npx eslint src scripts
 ## Project structure
 
 ```
-src/lib/site.ts             Site config: URLs, contact, education, CV toggle
+src/lib/site.ts             Site config: URLs, contact, education, CV list
 src/lib/projects/           One data file per project + types + registry
 src/lib/capabilities.ts     Homepage capability groups
 src/components/             Header, footer, cards, case-study block renderers
@@ -67,29 +67,55 @@ Two house rules on style, applied throughout:
 
 - No em dashes or en dashes in visible copy. Use commas, full stops, colons
   or parentheses instead.
-- No italics in body copy. Emphasis is `**bold**` only, and the site ships a
-  single sans family with monospace reserved for small technical labels.
+- No italics in body copy. Emphasis is `**bold**` only.
 
-## Activating the CV
+## Design
 
-The CV links are already wired into the header, the homepage hero, the About
-page and the footer, but nothing renders while the file does not exist, so
-there is no route to a 404.
+Warm and editorial: bone paper, near-black ink with a brown cast, and one
+deep oxblood accent used sparingly for rules, links and markers. It should
+read like a research publication rather than a product page.
 
-To turn them on:
+Three typefaces, each with one job, all loaded in `src/app/layout.tsx`:
 
-1. Put the PDF at `public/Jad-El-Badaoui-CV.pdf` (that exact filename).
-2. In `src/lib/site.ts`, change `resumeAvailable: false` to
-   `resumeAvailable: true`.
-3. `npm run build` to confirm, then commit and push. Vercel redeploys.
+| Face | Used for |
+|---|---|
+| Newsreader | Headings, applied to `h1`/`h2`/`h3` in `globals.css` so components don't opt in |
+| Inter | Body copy |
+| IBM Plex Mono | "Instrument" text only: section indices, figure captions, data labels, equations |
 
-To take it down again, set `resumeAvailable` back to `false`. To serve the
-file under a different name, change `resumeUrl` to match.
+Do not add a fourth family, and do not go back to Geist Sans or Geist Mono.
+They are the Next.js starter defaults, and a site wearing them looks like a
+template nobody chose, which is exactly the feedback that prompted this
+palette and type system.
+
+Colours live as CSS custom properties in `src/app/globals.css` and are
+exposed to Tailwind through `@theme inline`, so no component hard-codes a
+colour. Change a token there and the whole site follows.
+
+## CVs
+
+There are two, because the same work points at two different graduate
+disciplines and a CV written to cover both covers neither well:
+
+| Version | File |
+|---|---|
+| Structures | `public/Jad-El-Badaoui-CV-Structures.pdf` |
+| Flight Physics | `public/Jad-El-Badaoui-CV-Flight-Physics.pdf` |
+
+Both are listed in `resumes` in `src/lib/site.ts`. That list drives the CV
+section on the homepage and the links on the About page. The header, hero
+and footer carry one "CV" link pointing at the section rather than at a
+single file.
+
+To replace one, overwrite the PDF. To add a third, drop it in `public/` and
+add an entry with its `label`, `url`, `summary` and `focus`. To take them all
+down, empty the list: nothing renders while it is empty, so there is never a
+link to a missing file.
 
 ## Site configuration
 
 `src/lib/site.ts` is the single source for name, production URL, email,
-GitHub, LinkedIn, the CV toggle and education. Nothing else in the codebase
+GitHub, LinkedIn, the CV list and education. Nothing else in the codebase
 should hard-code those values. `siteUrl` drives canonical URLs, Open Graph
 metadata, the sitemap and robots.txt, so it must stay the live domain.
 

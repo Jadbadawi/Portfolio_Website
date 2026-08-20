@@ -117,11 +117,17 @@ Add a section to `docs/content-sources.md` recording where each factual
 claim and image came from. That file is the reason the site can be trusted:
 don't let it rot.
 
-## Activating the CV
+## Adding a CV
 
-In `src/lib/site.ts`, drop the PDF at `public/Jad-El-Badaoui-CV.pdf` and set
-`resumeAvailable: true`. The header, hero, About and footer links then appear
-automatically. Until then they are not rendered at all, so there is no link
-to a missing file. See the README for the full procedure.
+There is more than one CV, because the work points at two different graduate
+disciplines. To add or replace one: drop the PDF in `public/` and add an
+entry to `resumes` in `src/lib/site.ts` with its `label`, `url`, `summary`
+and `focus` list.
+
+The homepage CV section, the About page buttons and sidebar all follow from
+that list. The header, hero and footer carry a single "CV" link that points
+at the section rather than at one file, because choosing one of several on
+the reader's behalf is the wrong default. While the list is empty nothing
+renders at all, so there is never a link to a missing file.
 
 LinkedIn and GitHub are already configured in the same file.

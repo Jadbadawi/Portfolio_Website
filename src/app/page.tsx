@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { featuredProjects } from "@/lib/projects";
 import { capabilities } from "@/lib/capabilities";
-import { resumeHref, site } from "@/lib/site";
+import { hasResumes, resumeSectionHref, resumes, site } from "@/lib/site";
 import ProjectCard from "@/components/ProjectCard";
 import Reveal from "@/components/Reveal";
 
@@ -68,14 +68,14 @@ export default function Home() {
                 >
                   GitHub <span aria-hidden>↗</span>
                 </a>
-                {/* Hidden until the CV is published; see src/lib/site.ts. */}
-                {resumeHref && (
-                  <a
-                    href={resumeHref}
+                {/* Hidden while there is no CV; see src/lib/site.ts. */}
+                {hasResumes && (
+                  <Link
+                    href={resumeSectionHref}
                     className="rounded-sm border border-line-strong px-5 py-2.5 text-sm font-medium text-ink transition-colors hover:border-ink"
                   >
-                    CV (PDF)
-                  </a>
+                    CV
+                  </Link>
                 )}
               </div>
             </div>
@@ -208,6 +208,66 @@ export default function Home() {
           </Reveal>
         </div>
       </section>
+
+      {/* --------------------------------------------------------------- cv */}
+      {hasResumes && (
+        <section className="mx-auto max-w-6xl px-5 pb-24 sm:px-8">
+          <SectionHeading index="04" title="CV" id="cv" />
+          <div className="mt-10 grid gap-10 lg:grid-cols-[5fr_7fr] lg:gap-16">
+            <Reveal>
+              <h2 className="text-2xl font-semibold tracking-tight text-ink">
+                Two versions, same work
+              </h2>
+              <p className="mt-4 leading-relaxed text-ink-2">
+                The projects on this site point at two different graduate
+                disciplines, and a CV written to cover both covers neither
+                well. Each version leads with the work that matters to the
+                reader it is written for. The evidence behind them is the same,
+                and it is all on this site.
+              </p>
+            </Reveal>
+            <Reveal className="grid gap-px overflow-hidden rounded-sm border border-line bg-line sm:grid-cols-2">
+              {resumes.map((cv) => (
+                <a
+                  key={cv.url}
+                  href={cv.url}
+                  className="group flex flex-col bg-panel p-6 transition-colors hover:bg-accent-soft"
+                >
+                  <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-ink-3">
+                    CV
+                  </p>
+                  <h3 className="mt-2 text-xl font-semibold tracking-tight text-ink group-hover:text-accent-strong">
+                    {cv.label}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-ink-2">
+                    {cv.summary}
+                  </p>
+                  <ul className="mt-4 space-y-1.5">
+                    {cv.focus.map((f) => (
+                      <li
+                        key={f}
+                        className="flex gap-2.5 text-sm leading-relaxed text-ink-2"
+                      >
+                        <span aria-hidden className="mt-2.5 h-px w-3 shrink-0 bg-accent" />
+                        {f}
+                      </li>
+                    ))}
+                  </ul>
+                  <p className="mt-6 pt-2 text-sm font-medium text-accent-strong">
+                    Open PDF
+                    <span
+                      aria-hidden
+                      className="ml-1.5 inline-block transition-transform duration-300 group-hover:translate-x-1 motion-reduce:transition-none"
+                    >
+                      →
+                    </span>
+                  </p>
+                </a>
+              ))}
+            </Reveal>
+          </div>
+        </section>
+      )}
     </>
   );
 }

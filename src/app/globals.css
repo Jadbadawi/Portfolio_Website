@@ -3,26 +3,30 @@
 /*
  * Design tokens.
  *
- * A light, technical system: warm off-white paper, near-black ink, and a
- * single restrained signal-orange accent used sparingly (rules, markers,
- * links).
+ * A warm, editorial system: bone paper, near-black ink with a brown cast,
+ * and a single deep oxblood accent used sparingly for rules, links and
+ * markers. It is meant to read like a research publication rather than a
+ * product page, which suits a site whose argument is about evidence.
  *
- * Two families only, and no italics anywhere. Geist Sans carries all body
- * copy and headings; Geist Mono is reserved for "instrument" text, meaning
- * section indices, figure captions and data labels. Nothing else may
- * introduce a third family or a font-style change.
+ * Three families, each with one job (they are loaded in layout.tsx):
+ * Newsreader sets the headings, Inter sets body copy, and IBM Plex Mono is
+ * reserved for "instrument" text, meaning section indices, figure captions,
+ * data labels and equations. Nothing may introduce a fourth family, and
+ * there are no italics anywhere: emphasis is weight and wording.
  */
 :root {
-  --paper: #faf9f6;
-  --panel: #ffffff;
-  --ink: #191a1e;
-  --ink-2: #4d5058;
-  --ink-3: #82858d;
-  --line: #e4e2da;
-  --line-strong: #cfcdc4;
-  --accent: #b3400d;
-  --accent-strong: #93340a;
-  --accent-soft: #f6e7dd;
+  --paper: #f6f3ec;
+  --panel: #fffefb;
+  --ink: #191510;
+  --ink-2: #514a3f;
+  --ink-3: #857c6e;
+  --line: #e0d9cb;
+  --line-strong: #c3b9a5;
+  --accent: #8c2f39;
+  --accent-strong: #6e232c;
+  --accent-soft: #f2e4e3;
+  --grid-line: rgba(25, 21, 16, 0.05);
+  --backdrop: rgba(20, 17, 12, 0.93);
 }
 
 @theme inline {
@@ -36,8 +40,21 @@
   --color-accent: var(--accent);
   --color-accent-strong: var(--accent-strong);
   --color-accent-soft: var(--accent-soft);
-  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-ibm-plex-mono), ui-monospace, monospace;
+  --font-display: var(--font-newsreader), Georgia, serif;
+}
+
+/*
+ * Headings take the display face without every component having to opt in.
+ * The slight negative tracking stops Newsreader from looking loose at the
+ * large sizes the hero and section titles use.
+ */
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  letter-spacing: -0.015em;
 }
 
 html {
@@ -114,14 +131,14 @@ dialog.lightbox {
 }
 
 dialog.lightbox::backdrop {
-  background: rgba(18, 19, 22, 0.92);
+  background: var(--backdrop);
 }
 
 /* Fine blueprint-style grid used behind the hero. */
 .technical-grid {
   background-image:
-    linear-gradient(to right, rgba(25, 26, 30, 0.045) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(25, 26, 30, 0.045) 1px, transparent 1px);
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
   background-size: 56px 56px;
   mask-image: linear-gradient(to bottom, black 0%, black 55%, transparent 100%);
 }

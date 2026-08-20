@@ -26,14 +26,31 @@ export const site = {
 
   // ---------------------------------------------------------------- resume
   /**
-   * Where the CV will be served from once it exists. Nothing links to it
-   * until `resumeAvailable` is true, so there is no route to a 404.
+   * CVs, in display order. There is more than one because the same work
+   * points at two different graduate disciplines, and a CV that tries to
+   * address both ends up addressing neither.
    *
-   * To activate: put the PDF at `public/Jad-El-Badaoui-CV.pdf` and set
-   * `resumeAvailable: true`. See the README.
+   * Nothing renders while this list is empty, so there is never a link to a
+   * missing file. To add one: drop the PDF in `public/` and add an entry.
+   * `label` names the discipline, `summary` says who it is written for, and
+   * `focus` is the short list of what it leads with.
    */
-  resumeUrl: "/Jad-El-Badaoui-CV.pdf",
-  resumeAvailable: false,
+  resumes: [
+    {
+      label: "Structures",
+      url: "/Jad-El-Badaoui-CV-Structures.pdf",
+      summary:
+        "Written for structural analysis, stress and airframe roles.",
+      focus: ["Composite structures", "FEA", "Test and failure analysis"],
+    },
+    {
+      label: "Flight Physics",
+      url: "/Jad-El-Badaoui-CV-Flight-Physics.pdf",
+      summary:
+        "Written for aerodynamics, flight physics and simulation roles.",
+      focus: ["CFD", "Aerodynamics", "Verification and validation"],
+    },
+  ],
 
   // ------------------------------------------------------------- education
   education: [
@@ -78,10 +95,17 @@ export const site = {
 
 export type Site = typeof site;
 
+export type Resume = (typeof site.resumes)[number];
+
+/** Every CV on the site, or an empty list while there are none. */
+export const resumes: readonly Resume[] = site.resumes;
+
 /**
- * The href for the CV, or null while it is not yet published. Every resume
- * link in the UI goes through this, so one flag controls all of them.
+ * Whether to render CV links at all. Chrome that has room for only one link
+ * (header, footer) points at the CV section rather than at a single file,
+ * because picking one of two on the reader's behalf is the wrong default.
  */
-export const resumeHref: string | null = site.resumeAvailable
-  ? site.resumeUrl
-  : null;
+export const hasResumes: boolean = site.resumes.length > 0;
+
+/** Where the single-link CV entries in the chrome should go. */
+export const resumeSectionHref = "/#cv";
