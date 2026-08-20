@@ -53,11 +53,14 @@ export default function AboutPage() {
               collaborators&apos; contributions explicitly.
             </p>
             <p>
-              Alongside the projects on this site, I&apos;m working on
-              FPGA-oriented performance engineering: optimising clustering
-              algorithms in C++ with SYCL/DPC++ and Alpaka, working through
-              loop-carried dependencies, irregular memory access and on-chip
-              memory trade-offs.
+              Alongside the projects on this site, I&apos;m writing my own
+              finite-volume solver for the NACA 0012, the same case I validated
+              against NASA measurements in ANSYS. Mesh handling, discretisation
+              of the governing equations, boundary conditions and time
+              integration: the parts a commercial solver keeps out of sight are
+              the parts I want to have implemented and checked myself. I also
+              work on FPGA-oriented performance engineering, optimising
+              clustering algorithms in C++ with SYCL/DPC++ and Alpaka.
             </p>
             <p>
               I&apos;m interested in aerospace, propulsion, CFD, simulation and

@@ -22,7 +22,8 @@ Local clones at the time of writing (paths differ from repo names):
 | Incoming MSc Advanced Computational Methods…, Imperial College London | Profile README |
 | Toolset list (ANSYS Fluent · Abaqus · MATLAB · Python · C++ · SYCL · FPGA) | Profile README |
 | "Trustworthy, not just converged" framing | Profile README, paragraph 2 |
-| FPGA clustering acceleration (in progress, unpublished) | Profile README, "In progress" section |
+| NACA 0012 finite-volume solver (the "In progress" card and the About paragraph) | Supplied directly by Jad (20 Aug 2026). **No code exists yet**, so both places must stay in the future/continuous tense. `~/Documents/cfdshit` is coursework driving a *provided* solver binary and is not this project; do not cite it as evidence. Promote to a full project only once there is a repository. |
+| FPGA clustering acceleration (still true, no longer the headline) | Profile README, "In progress" section. Retained in the About paragraph and in `capabilities.ts`; it no longer occupies the in-progress card. |
 | Contact email | Public git commit metadata on all three repositories |
 | LinkedIn | Supplied directly by Jad (15 Aug 2026): `https://www.linkedin.com/in/jad-el-badaoui` |
 

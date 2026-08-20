@@ -62,11 +62,17 @@ export const site = {
     summary: string;
   }[],
 
-  /** Current work-in-progress, shown under education. */
+  /**
+   * Current work-in-progress, shown under education.
+   *
+   * Keep this honestly framed as unfinished. It is the one place on the site
+   * that describes work with no published output behind it, so the wording
+   * has to make clear it is being built rather than delivered.
+   */
   inProgress: {
-    title: "FPGA clustering acceleration",
+    title: "A NACA 0012 finite-volume solver",
     summary:
-      "Performance engineering and FPGA-oriented optimisation of clustering algorithms in C++ with SYCL/DPC++ and Alpaka, covering loop-carried dependencies, irregular memory access and on-chip memory trade-offs. An independent demonstrator, not yet published.",
+      "Writing my own two-dimensional flow solver for the aerofoil I validated against NASA data in ANSYS: mesh handling, finite-volume discretisation of the governing equations, boundary conditions and time integration, verified against the same reference case. The aim is to implement and check the numerical methods a commercial solver keeps out of sight. In progress, not yet published.",
   },
 } as const;
 

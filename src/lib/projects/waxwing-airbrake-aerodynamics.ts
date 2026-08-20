@@ -13,7 +13,7 @@ export const waxwingAirbrakeAerodynamics: Project = {
   category: "CFD · Aerodynamics",
   period: "2024/25 · HyPower Bristol, EuRoC 2025",
   featured: true,
-  order: 2,
+  order: 3,
 
   hero: {
     src: img("hero-total-pressure.png"),

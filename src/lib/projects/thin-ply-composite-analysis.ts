@@ -12,7 +12,7 @@ export const thinPlyCompositeAnalysis: Project = {
   category: "Composites · FEA · Experiment",
   period: "2025/26 · Final-year research project, University of Bristol",
   featured: true,
-  order: 3,
+  order: 2,
 
   hero: {
     src: img("manufacturing-process.jpg"),
