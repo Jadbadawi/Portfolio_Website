@@ -90,6 +90,15 @@ async function auditImages(page, label) {
   }
 }
 
+/*
+ * The site renders two headers: a fixed rail on `lg` and up, and a compact
+ * bar below it. Exactly one is ever displayed, but a bare `header a[...]`
+ * selector matches both and Playwright takes the first, which at narrow
+ * widths is the hidden one. Every chrome selector here is therefore scoped
+ * with `:visible`.
+ */
+const HOME_LINK = 'header a[href="/"]:visible';
+
 /** Click a link and wait for the client-side route change to commit. */
 async function clientNav(page, selector, expectPath) {
   await page.evaluate(() => window.scrollTo(0, 0));
@@ -151,7 +160,7 @@ for (const [vpName, viewport] of [
 
   // 3. Back to homepage → another project → bottom
   note("\n3. Back to homepage → third project → scroll to bottom");
-  await clientNav(page, 'header a[href="/"]', "/");
+  await clientNav(page, HOME_LINK, "/");
   await scrollThrough(page);
   await auditImages(page, "homepage (client-side nav back)");
   await clientNav(page, `a[href="/projects/${SLUGS.uav}"]`, `/projects/${SLUGS.uav}`);
@@ -178,7 +187,7 @@ for (const [vpName, viewport] of [
   note("\n5. Repeated navigation between all three projects");
   for (let round = 1; round <= 2; round++) {
     for (const [name, slug] of Object.entries(SLUGS)) {
-      await clientNav(page, 'header a[href="/"]', "/");
+      await clientNav(page, HOME_LINK, "/");
       await clientNav(page, `a[href="/projects/${slug}"]`, `/projects/${slug}`);
       await scrollThrough(page);
       await auditImages(page, `round ${round}: ${name}`);

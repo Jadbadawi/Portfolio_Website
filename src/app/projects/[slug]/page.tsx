@@ -40,7 +40,7 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
     <article>
       {/* ---------------------------------------------------------- header */}
       <header className="border-b border-line">
-        <div className="mx-auto max-w-6xl px-5 pb-10 pt-12 sm:px-8 sm:pt-16">
+        <div className="mx-auto max-w-5xl px-5 pb-10 pt-12 sm:px-8 sm:pt-16 lg:px-12 xl:px-16">
           <nav aria-label="Breadcrumb">
             <Link
               href="/#work"
@@ -54,7 +54,7 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
             {"  ·  "}
             {project.period}
           </p>
-          <h1 className="mt-3 max-w-3xl text-3xl font-semibold tracking-tight text-ink sm:text-5xl">
+          <h1 className="mt-4 max-w-3xl text-[34px] leading-[1.1] text-ink sm:text-[50px]">
             {project.title}
           </h1>
           <p className="mt-4 max-w-2xl text-lg leading-relaxed text-ink-2">
@@ -115,7 +115,7 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
         </div>
       </header>
 
-      <div className="mx-auto max-w-6xl px-5 sm:px-8">
+      <div className="mx-auto max-w-5xl px-5 sm:px-8 lg:px-12 xl:px-16">
         {/* ------------------------------------------------------------ hero */}
         <figure className="mt-10">
           <div
@@ -176,18 +176,17 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
 
         {/* -------------------------------------------------------- sections */}
         {project.sections.map((section, i) => (
-          <section key={section.id} id={section.id} className="scroll-mt-20 py-12 sm:py-14">
-            <Reveal>
-              <p className="font-mono text-xs uppercase tracking-[0.2em] text-ink-3">
+          <section key={section.id} id={section.id} className="scroll-mt-16 border-t border-line py-12 sm:py-16">
+            <Reveal className="grid gap-4 lg:grid-cols-[160px_1fr] lg:gap-12">
+              <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-3 lg:pt-3">
                 <span className="text-accent">{String(i + 1).padStart(2, "0")}</span>
-                {section.kicker && `  /  ${section.kicker}`}
+                {section.kicker && ` ${section.kicker}`}
               </p>
-              <h2 className="mt-3 max-w-3xl text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
+              <h2 className="max-w-2xl text-[26px] leading-[1.2] text-ink sm:text-[32px]">
                 {section.title}
               </h2>
-              <div className="mt-4 h-px w-full bg-line" />
             </Reveal>
-            <div className="mt-8 space-y-8">
+            <div className="mt-9 space-y-8 lg:pl-[208px]">
               {section.blocks.map((block, j) => (
                 <BlockRenderer key={j} block={block} />
               ))}
@@ -217,7 +216,7 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
 
       {/* ------------------------------------------------------- prev/next */}
       <nav aria-label="Other projects" className="border-t border-line">
-        <div className="mx-auto grid max-w-6xl sm:grid-cols-2">
+        <div className="mx-auto grid max-w-5xl sm:grid-cols-2">
           <Link
             href={`/projects/${prev.slug}`}
             className="group border-b border-line px-5 py-8 transition-colors hover:bg-panel sm:border-b-0 sm:border-r sm:px-8"

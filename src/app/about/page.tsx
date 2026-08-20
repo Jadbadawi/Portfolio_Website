@@ -15,13 +15,13 @@ const profileLinkClass =
 
 export default function AboutPage() {
   return (
-    <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-20">
+    <div className="mx-auto max-w-5xl px-5 py-16 sm:px-8 sm:py-20 lg:px-12 xl:px-16">
       <div className="grid gap-12 lg:grid-cols-[7fr_4fr] lg:gap-20">
         <div className="max-w-2xl">
-          <p className="font-mono text-xs uppercase tracking-[0.24em] text-accent">
+          <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-accent">
             About
           </p>
-          <h1 className="mt-4 text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
+          <h1 className="mt-4 text-[34px] leading-[1.15] text-ink sm:text-[44px]">
             Simulation, structures and experiment
           </h1>
 

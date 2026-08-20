@@ -7,13 +7,13 @@ const linkClass =
 export default function SiteFooter() {
   return (
     <footer id="contact" className="mt-auto border-t border-line">
-      <div className="mx-auto max-w-6xl px-5 py-14 sm:px-8">
+      <div className="mx-auto max-w-5xl px-5 py-14 sm:px-8 lg:px-12 xl:px-16">
         <div className="flex flex-col gap-10 md:flex-row md:items-end md:justify-between">
           <div>
-            <p className="font-mono text-xs uppercase tracking-[0.2em] text-ink-3">
+            <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-3">
               Contact
             </p>
-            <h2 className="mt-3 text-2xl font-semibold tracking-tight text-ink">
+            <h2 className="mt-3 text-[28px] leading-tight text-ink">
               Get in touch
             </h2>
             <p className="mt-2 max-w-md text-sm leading-relaxed text-ink-2">

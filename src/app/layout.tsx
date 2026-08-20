@@ -78,10 +78,17 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           Skip to content
         </a>
         <SiteHeader />
-        <main id="main" className="flex-1">
-          {children}
-        </main>
-        <SiteFooter />
+        {/*
+          The left rail is fixed, so everything else is inset by its width on
+          `lg` and up. Below that the rail becomes a top bar and the offset
+          disappears.
+        */}
+        <div className="flex min-h-full flex-1 flex-col lg:pl-[248px] xl:pl-[280px]">
+          <main id="main" className="flex-1">
+            {children}
+          </main>
+          <SiteFooter />
+        </div>
         <Lightbox />
       </body>
     </html>
