@@ -26,6 +26,15 @@ Local clones at the time of writing (paths differ from repo names):
 | FPGA clustering acceleration (still true, no longer the headline) | Profile README, "In progress" section. Retained in the About paragraph and in `capabilities.ts`; it no longer occupies the in-progress card. |
 | Contact email | Public git commit metadata on all three repositories |
 | LinkedIn | Supplied directly by Jad (15 Aug 2026): `https://www.linkedin.com/in/jad-el-badaoui` |
+| The two published CVs (`public/Jad-El-Badaoui-CV-Structures.pdf`, `public/Jad-El-Badaoui-CV-Flight-Physics.pdf`) | Copied from `~/Documents/airbus-cvs`, from `Jad_El_Badaoui_Airbus_Structures_CV_FINAL.pdf` and `Jad_El_Badaoui_Airbus_Flight_Physics_FINAL_v2.pdf`. That folder holds five candidates; these two were selected because each file's own header comment states it supersedes the others, and **Jad confirmed on 20 Aug 2026 that they are the correct versions**. Re-confirm when replacing either, because the filenames in that folder do not make the newest obvious. |
+
+### Claims the CVs make that the site does not
+
+Both CVs state a First Class BEng and cohort-topping marks in Aerodynamics
+(95%) and Engineering Mathematics (94%). None of that appears anywhere on
+the site. It is not an oversight to correct silently: it is unverified
+against any document held here, and it belongs on the site only once Jad
+supplies it deliberately. Flagged to him 20 Aug 2026.
 
 ## Homepage capabilities section (`src/lib/capabilities.ts`)
 
