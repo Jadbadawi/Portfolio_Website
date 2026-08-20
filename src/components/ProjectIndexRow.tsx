@@ -54,11 +54,14 @@ export default function ProjectIndexRow({
               {project.stats && (
                 <dl className="mt-5 flex flex-wrap gap-x-8 gap-y-2">
                   {project.stats.slice(0, 3).map((s) => (
-                    <div
-                      key={s.label}
-                      className="flex items-baseline gap-2 whitespace-nowrap"
-                    >
-                      <dd className="font-mono text-sm text-ink">{s.value}</dd>
+                    <div key={s.label} className="flex items-baseline gap-2">
+                      {/* Only the figure resists wrapping. Letting the label
+                          wrap too is what kept "45 to 254 J/m²" intact at the
+                          cost of forcing the row wider than a 320 px
+                          viewport. */}
+                      <dd className="whitespace-nowrap font-mono text-sm text-ink">
+                        {s.value}
+                      </dd>
                       <dt className="font-mono text-[11px] uppercase tracking-[0.12em] text-ink-3">
                         {s.label}
                       </dt>

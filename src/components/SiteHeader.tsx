@@ -110,20 +110,28 @@ export default function SiteHeader() {
           >
             Jad El Badaoui
           </Link>
-          <nav aria-label="Main">
-            <ul className="flex items-center gap-4 sm:gap-6">
-              {items.map((l) => (
-                <li key={l.href}>
-                  <Link
-                    href={l.href}
-                    className="text-sm text-ink-2 transition-colors hover:text-ink"
-                  >
-                    {l.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
+          <div className="flex items-center gap-4 sm:gap-6">
+            <nav aria-label="Main">
+              <ul className="flex items-center gap-4 sm:gap-6">
+                {items.map((l) => (
+                  <li key={l.href}>
+                    <Link
+                      href={l.href}
+                      className="text-sm text-ink-2 transition-colors hover:text-ink"
+                    >
+                      {l.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+            {/*
+              The rail carries these on large screens. Here they appear from
+              `sm` up, which is where there is room for them beside four nav
+              links; at 390 px the footer is the only place they fit.
+            */}
+            <SocialRow className="hidden sm:flex" />
+          </div>
         </div>
       </header>
     </>
