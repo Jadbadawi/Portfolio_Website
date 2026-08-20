@@ -1,7 +1,7 @@
 import Image from "next/image";
 import type { Block, Figure } from "@/lib/projects/types";
 import Reveal from "./Reveal";
-import { formatInline } from "./inline";
+import { formatInline, formatMath } from "./inline";
 
 /**
  * Renderers for the case-study block model. All server components: the
@@ -76,6 +76,12 @@ const THIRD_SIZES =
   "(min-width: 1152px) 352px, (min-width: 640px) 33vw, calc(100vw - 40px)";
 const QUARTER_SIZES =
   "(min-width: 1152px) 262px, (min-width: 640px) 25vw, calc(50vw - 30px)";
+
+const NOTE_LABEL = {
+  caveat: "Caveat",
+  insight: "The point",
+  provenance: "Provenance",
+} as const;
 
 export function BlockRenderer({ block }: { block: Block }) {
   switch (block.kind) {
@@ -281,14 +287,178 @@ export function BlockRenderer({ block }: { block: Block }) {
       return (
         <aside
           className={`max-w-2xl rounded-sm border-l-2 py-1 pl-5 ${
-            block.tone === "caveat" ? "border-ink-3" : "border-accent"
+            block.tone === "insight" ? "border-accent" : "border-ink-3"
           }`}
         >
           <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-ink-3">
-            {block.tone === "caveat" ? "Caveat" : "The point"}
+            {NOTE_LABEL[block.tone]}
           </p>
           <p className="mt-1.5 leading-relaxed text-ink-2">{formatInline(block.body)}</p>
         </aside>
+      );
+
+    case "pipeline":
+      return (
+        <Reveal>
+          <ol className="relative max-w-3xl">
+            {block.steps.map((step, i) => {
+              const last = i === block.steps.length - 1;
+              return (
+                <li key={step.title} className="relative pl-9 sm:pl-11">
+                  {/* Connector: a rail down the left, stopping at the last node. */}
+                  {!last && (
+                    <span
+                      aria-hidden
+                      className="absolute left-[9px] top-3 h-full w-px bg-line-strong sm:left-[11px]"
+                    />
+                  )}
+                  <span
+                    aria-hidden
+                    className={`absolute left-0 top-1.5 grid h-[19px] w-[19px] place-items-center rounded-sm border font-mono text-[10px] sm:h-[23px] sm:w-[23px] ${
+                      last
+                        ? "border-accent bg-accent text-paper"
+                        : "border-line-strong bg-panel text-ink-3"
+                    }`}
+                  >
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <div className="pb-6 last:pb-0">
+                    <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                      <h4 className="font-medium text-ink">{step.title}</h4>
+                      {step.tag && (
+                        <span className="rounded-sm border border-line bg-panel px-2 py-0.5 font-mono text-[11px] text-ink-3">
+                          {step.tag}
+                        </span>
+                      )}
+                    </div>
+                    {step.detail && (
+                      <p className="mt-1 text-sm leading-relaxed text-ink-2">
+                        {formatInline(step.detail)}
+                      </p>
+                    )}
+                  </div>
+                </li>
+              );
+            })}
+          </ol>
+        </Reveal>
+      );
+
+    case "params":
+      return (
+        <Reveal>
+          <div className="grid gap-px overflow-hidden rounded-sm border border-line bg-line sm:grid-cols-2">
+            {block.groups.map((group) => (
+              <div key={group.title} className="bg-panel p-6">
+                <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-ink-3">
+                  {group.title}
+                </p>
+                <dl className="mt-4">
+                  {group.rows.map(([label, value]) => (
+                    <div
+                      key={label}
+                      className="flex items-baseline justify-between gap-4 border-b border-line py-2 last:border-0"
+                    >
+                      <dt className="text-sm text-ink-2">{formatMath(label)}</dt>
+                      <dd className="shrink-0 text-right font-mono text-sm text-ink">
+                        {formatMath(value)}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+            ))}
+          </div>
+        </Reveal>
+      );
+
+    case "equation":
+      return (
+        <Reveal className="max-w-2xl space-y-4">
+          {block.items.map((item) => (
+            <figure key={item.expr} className="rounded-sm border border-line bg-panel">
+              <p className="overflow-x-auto px-5 py-4 text-center font-mono text-base text-ink sm:text-lg">
+                {formatMath(item.expr)}
+              </p>
+              {item.meaning && (
+                <figcaption className="border-t border-line px-5 py-3 text-sm leading-relaxed text-ink-2">
+                  {formatInline(item.meaning)}
+                </figcaption>
+              )}
+            </figure>
+          ))}
+        </Reveal>
+      );
+
+    case "keyResult":
+      return (
+        <Reveal>
+          <figure>
+            <dl className="grid gap-px overflow-hidden rounded-sm border border-line bg-line sm:grid-cols-3">
+              {block.items.map((item) => (
+                <div
+                  key={item.label}
+                  className={`p-6 ${item.emphasis ? "bg-accent-soft" : "bg-panel"}`}
+                >
+                  <dt className="font-mono text-[11px] uppercase tracking-[0.2em] text-ink-3">
+                    {item.label}
+                  </dt>
+                  <dd
+                    className={`mt-2 text-3xl font-semibold tracking-tight sm:text-4xl ${
+                      item.emphasis ? "text-accent-strong" : "text-ink"
+                    }`}
+                  >
+                    {formatMath(item.value)}
+                  </dd>
+                  {item.note && (
+                    <p className="mt-2 font-mono text-xs leading-relaxed text-ink-3">
+                      {item.note}
+                    </p>
+                  )}
+                </div>
+              ))}
+            </dl>
+            {block.caption && (
+              <figcaption className="mt-2.5 max-w-2xl border-l-2 border-accent/60 pl-3 font-mono text-xs leading-relaxed text-ink-2">
+                {block.caption}
+              </figcaption>
+            )}
+          </figure>
+        </Reveal>
+      );
+
+    case "vv":
+      return (
+        <Reveal>
+          <div className="overflow-hidden rounded-sm border border-line">
+            <div className="grid gap-px bg-line sm:grid-cols-2">
+              {(
+                [
+                  ["Verification", block.verification],
+                  ["Validation", block.validation],
+                ] as const
+              ).map(([title, side]) => (
+                <div key={title} className="bg-panel p-6">
+                  <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-accent">
+                    {title}
+                  </p>
+                  <p className="mt-2 font-medium leading-snug text-ink">{side.question}</p>
+                  <ul className="mt-4 space-y-2">
+                    {side.items.map((item) => (
+                      <li key={item} className="flex gap-2.5 text-sm leading-relaxed text-ink-2">
+                        <span aria-hidden className="mt-2.5 h-px w-3 shrink-0 bg-line-strong" />
+                        <span>{formatInline(item)}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+            <p className="border-t border-line bg-panel px-6 py-5 leading-relaxed text-ink-2">
+              {formatInline(block.verdict)}
+            </p>
+          </div>
+        </Reveal>
       );
   }
 }

@@ -20,7 +20,8 @@ await mkdir(outDir, { recursive: true });
 const pages = [
   ["home", "http://localhost:3000/"],
   ["about", "http://localhost:3000/about"],
-  ["cfd", "http://localhost:3000/projects/aerospace-cfd-fsi"],
+  ["turbine", "http://localhost:3000/projects/wind-turbine-aero-structural"],
+  ["naca", "http://localhost:3000/projects/naca0012-aerofoil"],
   ["waxwing", "http://localhost:3000/projects/waxwing-airbrake-aerodynamics"],
   ["ply", "http://localhost:3000/projects/thin-ply-composite-analysis"],
   ["uav", "http://localhost:3000/projects/blood-transport-uav"],
@@ -113,7 +114,7 @@ for (const [vpName, viewport] of viewports) {
 {
   const context = await browser.newContext({ viewport: { width: 1440, height: 900 } });
   const page = await context.newPage();
-  await page.goto("http://localhost:3000/projects/aerospace-cfd-fsi", {
+  await page.goto("http://localhost:3000/projects/wind-turbine-aero-structural", {
     waitUntil: "networkidle",
   });
   await page.locator("[data-lightbox]").first().click();

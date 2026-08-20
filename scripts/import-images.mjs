@@ -22,24 +22,24 @@ const OUT = path.join(import.meta.dirname, "..", "public", "images");
 
 /** @type {{repo: keyof typeof REPOS, from: string, to: string, maxWidth?: number, jpeg?: boolean}[]} */
 const IMAGES = [
-  // ------------------------------------------------------ aerospace-cfd-fsi
-  { repo: "cfd", from: "naca0012-airfoil/01-velocity-contours.png", to: "aerospace-cfd-fsi/naca-velocity-contours.png" },
-  { repo: "cfd", from: "naca0012-airfoil/02-pressure-contours.png", to: "aerospace-cfd-fsi/naca-pressure-contours.png" },
-  { repo: "cfd", from: "naca0012-airfoil/03-turbulent-kinetic-energy.png", to: "aerospace-cfd-fsi/naca-tke.png" },
-  { repo: "cfd", from: "naca0012-airfoil/04-velocity-vectors.png", to: "aerospace-cfd-fsi/naca-velocity-vectors.png" },
-  { repo: "cfd", from: "turbine-fsi/01-mesh.png", to: "aerospace-cfd-fsi/turbine-mesh.png", maxWidth: 2000 },
-  { repo: "cfd", from: "turbine-fsi/02-rotor-velocity-vectors.png", to: "aerospace-cfd-fsi/turbine-rotor-vectors.png", maxWidth: 2000 },
-  { repo: "cfd", from: "turbine-fsi/03-section-pressure-contours.png", to: "aerospace-cfd-fsi/turbine-section-pressure.png" },
-  { repo: "cfd", from: "turbine-fsi/04-section-velocity-vectors.png", to: "aerospace-cfd-fsi/turbine-section-velocity.png" },
-  { repo: "cfd", from: "turbine-fsi/06-fea-total-deformation.png", to: "aerospace-cfd-fsi/turbine-fea-deformation.png" },
-  { repo: "cfd", from: "naca0012-airfoil/05-cfd-reasoning-chain.png", to: "aerospace-cfd-fsi/reasoning-chain.png" },
-  { repo: "cfd", from: "naca0012-airfoil/06-domain-and-boundary-conditions.png", to: "aerospace-cfd-fsi/domain-and-bcs.png" },
+  // ------------------------------- naca0012-aerofoil + wind-turbine-aero-structural
+  { repo: "cfd", from: "naca0012-airfoil/01-velocity-contours.png", to: "naca0012-aerofoil/naca-velocity-contours.png" },
+  { repo: "cfd", from: "naca0012-airfoil/02-pressure-contours.png", to: "naca0012-aerofoil/naca-pressure-contours.png" },
+  { repo: "cfd", from: "naca0012-airfoil/03-turbulent-kinetic-energy.png", to: "naca0012-aerofoil/naca-tke.png" },
+  { repo: "cfd", from: "naca0012-airfoil/04-velocity-vectors.png", to: "naca0012-aerofoil/naca-velocity-vectors.png" },
+  { repo: "cfd", from: "turbine-fsi/01-mesh.png", to: "wind-turbine-aero-structural/mesh.png", maxWidth: 2000 },
+  { repo: "cfd", from: "turbine-fsi/02-rotor-velocity-vectors.png", to: "wind-turbine-aero-structural/rotor-vectors.png", maxWidth: 2000 },
+  { repo: "cfd", from: "turbine-fsi/03-section-pressure-contours.png", to: "wind-turbine-aero-structural/section-pressure.png" },
+  { repo: "cfd", from: "turbine-fsi/04-section-velocity-vectors.png", to: "wind-turbine-aero-structural/section-velocity.png" },
+  { repo: "cfd", from: "turbine-fsi/06-fea-total-deformation.png", to: "wind-turbine-aero-structural/fea-deformation.png" },
+  { repo: "cfd", from: "naca0012-airfoil/05-cfd-reasoning-chain.png", to: "naca0012-aerofoil/reasoning-chain.png" },
+  { repo: "cfd", from: "naca0012-airfoil/06-domain-and-boundary-conditions.png", to: "naca0012-aerofoil/domain-and-bcs.png" },
   // 07-mesh-strategy.png is deliberately not imported: the mesh strategy is
   // presented as text on the case-study page instead of as a labelled sketch.
-  { repo: "cfd", from: "naca0012-airfoil/08-verification-vs-validation.png", to: "aerospace-cfd-fsi/verification-vs-validation.png" },
-  { repo: "cfd", from: "naca0012-airfoil/09-near-wall-velocity-laws.png", to: "aerospace-cfd-fsi/near-wall-velocity-laws.png" },
-  { repo: "cfd", from: "naca0012-airfoil/10-experimental-cp-reference.png", to: "aerospace-cfd-fsi/experimental-cp-reference.png" },
-  { repo: "cfd", from: ".github/social-preview.png", to: "aerospace-cfd-fsi/og.png" },
+  { repo: "cfd", from: "naca0012-airfoil/08-verification-vs-validation.png", to: "naca0012-aerofoil/verification-vs-validation.png" },
+  { repo: "cfd", from: "naca0012-airfoil/09-near-wall-velocity-laws.png", to: "naca0012-aerofoil/near-wall-velocity-laws.png" },
+  { repo: "cfd", from: "naca0012-airfoil/10-experimental-cp-reference.png", to: "naca0012-aerofoil/experimental-cp-reference.png" },
+  { repo: "cfd", from: ".github/social-preview.png", to: "naca0012-aerofoil/og.png" },
 
   // ------------------------------------------- thin-ply-composite-analysis
   { repo: "ply", from: "figures/00-laminate-architectures.png", to: "thin-ply-composite-analysis/laminate-architectures.png" },
@@ -122,9 +122,17 @@ const CARD_CROPS = [
   {
     // Pressure field: warm palette, distinct from the velocity contour used
     // as the page hero, so card and hero never show the same picture.
-    from: path.join(OUT, "aerospace-cfd-fsi", "naca-pressure-contours.png"),
-    to: path.join(OUT, "aerospace-cfd-fsi", "card.png"),
+    from: path.join(OUT, "naca0012-aerofoil", "naca-pressure-contours.png"),
+    to: path.join(OUT, "naca0012-aerofoil", "card.png"),
     region: { left: 220, top: 190, width: 900, height: 506 },
+  },
+  {
+    // Rotor velocity vectors with the two unsolved blades drawn as graphical
+    // instances: the one turbine image that reads as a turbine at card size.
+    // The crop drops the colourbar and the solver watermark.
+    from: path.join(OUT, "wind-turbine-aero-structural", "rotor-vectors.png"),
+    to: path.join(OUT, "wind-turbine-aero-structural", "card.png"),
+    region: { left: 246, top: 200, width: 900, height: 506 },
   },
   {
     from: path.join(OUT, "thin-ply-composite-analysis", "sem-fractography.jpg"),

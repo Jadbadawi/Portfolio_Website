@@ -43,6 +43,9 @@ src/app/                    Routes: /, /about, /projects/[slug], sitemap, robots
 public/images/<slug>/       Curated project imagery
 scripts/import-images.mjs   Re-imports imagery from the source repositories
 scripts/make-og-home.mjs    Regenerates the homepage Open Graph image
+scripts/make-og-projects.mjs Regenerates the two ANSYS case-study OG images
+scripts/make-turbine-plots.mjs Replots the turbine convergence history from raw solver data
+scripts/data/               Raw solver output a plot script reads
 scripts/qa-screenshots.mjs  Screenshot/console/overflow QA harness
 scripts/nav-qa.mjs          Client-side navigation and image-visibility QA
 docs/adding-a-project.md    How to add a project (start here)

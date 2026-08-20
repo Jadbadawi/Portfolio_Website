@@ -28,3 +28,33 @@ export function formatInline(text: string): ReactNode[] {
     return part;
   });
 }
+
+/**
+ * Display-equation formatting: `_{...}` becomes a subscript and `^{...}` a
+ * superscript. Everything else is literal, so symbols are written as the
+ * Unicode characters themselves (Ω, ω, ρ, ×, ∞, ≈).
+ *
+ * This is deliberately not a TeX engine. The equations on this site are
+ * short enough that a full typesetting library would cost a font download,
+ * a stylesheet and a layout shift to render half a dozen lines.
+ */
+export function formatMath(expr: string): ReactNode[] {
+  const parts = expr.split(/(_\{[^}]*\}|\^\{[^}]*\})/g);
+  return parts.map((part, i) => {
+    if (part.startsWith("_{")) {
+      return (
+        <sub key={i} className="text-[0.7em]">
+          {part.slice(2, -1)}
+        </sub>
+      );
+    }
+    if (part.startsWith("^{")) {
+      return (
+        <sup key={i} className="text-[0.7em]">
+          {part.slice(2, -1)}
+        </sup>
+      );
+    }
+    return part;
+  });
+}

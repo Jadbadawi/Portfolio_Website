@@ -72,6 +72,29 @@ export default async function ProjectPage({ params }: PageProps<"/projects/[slug
                 Repository on GitHub <span aria-hidden>↗</span>
               </a>
             )}
+            {project.externalLinks?.map((link) =>
+              // Internal targets get client-side navigation; anything else
+              // opens in a new tab.
+              link.url.startsWith("/") ? (
+                <Link
+                  key={link.url}
+                  href={link.url}
+                  className="rounded-sm border border-line-strong px-4 py-2 text-sm font-medium text-ink transition-colors hover:border-ink"
+                >
+                  {link.label} <span aria-hidden>→</span>
+                </Link>
+              ) : (
+                <a
+                  key={link.url}
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-sm border border-line-strong px-4 py-2 text-sm font-medium text-ink transition-colors hover:border-ink"
+                >
+                  {link.label} <span aria-hidden>↗</span>
+                </a>
+              ),
+            )}
             <ul className="flex flex-wrap gap-x-2 gap-y-2">
               {project.tools.map((t) => (
                 <li

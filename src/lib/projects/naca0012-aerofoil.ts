@@ -1,27 +1,37 @@
 import type { Project } from "./types";
 
-const img = (file: string) => `/images/aerospace-cfd-fsi/${file}`;
+const img = (file: string) => `/images/naca0012-aerofoil/${file}`;
 
-export const aerospaceCfdFsi: Project = {
-  slug: "aerospace-cfd-fsi",
-  title: "Aerospace CFD & Fluid-Structure Interaction",
-  shortTitle: "Aerospace CFD & FSI",
+/**
+ * The aerofoil half of what was one combined "Aerospace CFD & FSI" case
+ * study. The wind-turbine half is now `wind-turbine-aero-structural`, and
+ * `next.config.ts` redirects the old `/projects/aerospace-cfd-fsi` URL
+ * there. The two pages share one repository and link to each other.
+ *
+ * This page owns the validation story, because the NACA 0012 is the only
+ * case in the portfolio with matched experimental data behind it. Keep the
+ * turbine's multiphysics and credibility material off it.
+ */
+export const naca0012Aerofoil: Project = {
+  slug: "naca0012-aerofoil",
+  title: "NACA 0012 Aerofoil: Verification and Validation",
+  shortTitle: "NACA 0012 Aerofoil CFD",
   tagline:
-    "Carrying a CFD result from hand calculation through to a validated solution, then coupling it into a structural analysis.",
+    "Carrying a two-dimensional RANS solution from a hand calculation through to a point-by-point comparison against NASA measurements, and reporting the part of the mesh that does not support the answer.",
   summary:
-    "Validated NACA 0012 aerodynamics and a one-way coupled wind-turbine fluid-structure interaction study in ANSYS Fluent and Mechanical, with formal verification and validation throughout.",
-  category: "CFD · Multiphysics",
+    "Steady RANS over a NACA 0012 at 10° and a chord Reynolds number of 6×10⁶, verified against a thin-aerofoil hand calculation and validated across the chord against NASA surface-pressure data, with a near-wall audit that found the wall treatment inconsistent with the mesh.",
+  category: "CFD · Verification & validation",
   period: "Summer 2026",
   featured: true,
-  order: 1,
+  order: 5,
 
   hero: {
-    src: img("turbine-mesh.png"),
-    alt: "Computational mesh of the 120-degree periodic wind turbine sector, refined toward the blade surfaces",
+    src: img("naca-velocity-contours.png"),
+    alt: "Velocity magnitude contours around a NACA 0012 aerofoil at 10 degrees incidence, showing the stagnation region, acceleration over the suction surface and the wake deficit",
     caption:
-      "The 120° periodic sector mesh for the wind-turbine study, refined toward the blade surfaces to resolve the boundary layer, with sphere-of-influence refinement through the rotor and wake.",
-    width: 2000,
-    height: 1042,
+      "Velocity magnitude at 10° incidence. Far-field velocity matches the specified free stream, which is the fastest check that the boundary conditions were applied as intended; flow accelerates to nearly twice free-stream around the upper leading edge.",
+    width: 1136,
+    height: 922,
   },
   card: {
     src: img("card.png"),
@@ -30,10 +40,10 @@ export const aerospaceCfdFsi: Project = {
     height: 506,
   },
   cardHover: {
-    src: img("turbine-fea-deformation.png"),
+    src: img("experimental-cp-reference.png"),
     alt: "",
-    width: 1042,
-    height: 471,
+    width: 1382,
+    height: 838,
     fit: "contain",
   },
   ogImage: img("og.png"),
@@ -41,19 +51,18 @@ export const aerospaceCfdFsi: Project = {
   disciplines: [
     "External aerodynamics",
     "RANS turbulence modelling",
-    "Fluid-structure interaction",
-    "Structural FEA",
+    "Near-wall modelling",
     "Verification & validation",
   ],
-  tools: [
-    "ANSYS Fluent",
-    "ANSYS CFX",
-    "ANSYS Mechanical",
-    "SpaceClaim",
-    "Python",
-  ],
+  tools: ["ANSYS Fluent", "SpaceClaim", "Python"],
 
   githubUrl: "https://github.com/Jadbadawi/aerospace-cfd-fsi",
+  externalLinks: [
+    {
+      label: "Wind turbine study",
+      url: "/projects/wind-turbine-aero-structural",
+    },
+  ],
 
   stats: [
     {
@@ -62,33 +71,33 @@ export const aerospaceCfdFsi: Project = {
       detail: "CL ≈ 1.06 against NASA measurements of 1.07 to 1.08",
     },
     {
-      value: "0.116 %",
-      label: "Root reaction vs hand calc",
-      detail: "1,578.1 kN from ANSYS against 1,576.3 kN analytically",
-    },
-    {
-      value: "0.405 m",
-      label: "Blade tip deflection",
-      detail: "0.92 % of the 44.2 m rotor radius",
+      value: "1.097",
+      label: "Thin-aerofoil prediction",
+      detail: "Computed before the solver was opened, so the CFD was falsifiable",
     },
     {
       value: "10⁻⁷",
       label: "Mass imbalance",
       detail: "Normalised against the incoming flow",
     },
+    {
+      value: "y⁺ audit",
+      label: "Failed, and reported",
+      detail: "Much of the surface sits outside the range the wall treatment needs",
+    },
   ],
 
   sections: [
     {
       id: "overview",
-      title: "Two linked studies",
+      title: "Why this case",
       kicker: "Overview",
       blocks: [
         {
           kind: "text",
           body: [
-            "A CFD result only means something if you can show why it should be believed. This project is two linked studies in ANSYS 2026 R1, developed alongside CornellX's ENGR2000X simulation course on edX, and both are built around that argument.",
-            "The first is a two-dimensional steady RANS solution over a NACA 0012 aerofoil at 10° incidence and a chord Reynolds number of 6×10⁶. The case was chosen because high-quality NASA experimental data exists for it, so the full verification and validation argument can be carried to the end. The second study is the larger one: a three-bladed horizontal-axis wind turbine solved as a one-way coupled fluid-structure interaction, where a rotating-frame CFD solution provides the pressure field that loads an orthotropic composite shell model of the blade.",
+            "A CFD result only means something if you can show why it should be believed. This study is a two-dimensional steady RANS solution over a NACA 0012 aerofoil at 10° incidence and a chord Reynolds number of 6×10⁶, run in ANSYS 2026 R1 alongside CornellX's ENGR2000X simulation course on edX.",
+            "The case was chosen for one reason: high-quality NASA experimental data exists for it, so the full verification and validation argument can be carried all the way to the end rather than stopping at plausibility. It is the only case in this portfolio where that is true, which is exactly why the wind turbine study, built on the same solver and the same discipline, cannot be called validated.",
           ],
         },
         {
@@ -201,35 +210,25 @@ export const aerospaceCfdFsi: Project = {
         },
         {
           kind: "figurePair",
-          labels: ["Velocity magnitude", "Velocity vectors"],
+          labels: ["Static pressure", "Velocity vectors"],
           figures: [
             {
-              src: img("naca-velocity-contours.png"),
-              alt: "Velocity magnitude contours showing the stagnation region, acceleration over the suction surface and the wake deficit",
+              src: img("naca-pressure-contours.png"),
+              alt: "Static pressure contours around the NACA 0012 aerofoil showing the leading-edge suction peak and trailing-edge pressure recovery",
               caption:
-                "Far-field velocity matches the specified free stream, which is the fastest check that boundary conditions were applied as intended. Flow accelerates to nearly twice free-stream around the upper leading edge.",
+                "Higher pressure below, lower above. That difference is the lift. Pressure changes very little across the thin boundary layer, which is a genuine result of boundary-layer theory rather than a plotting artefact, and it is why the pressure field is comparatively insensitive to near-wall mesh quality.",
               width: 1136,
               height: 922,
             },
             {
               src: img("naca-velocity-vectors.png"),
               alt: "Velocity vectors showing the flow turning around the leading edge of the aerofoil",
-              caption: "Flow turning around the leading edge, displaced toward the lower surface by the positive incidence.",
+              caption:
+                "Flow turning around the leading edge, displaced toward the lower surface by the positive incidence.",
               width: 999,
               height: 578,
             },
           ],
-        },
-        {
-          kind: "figure",
-          figure: {
-            src: img("naca-pressure-contours.png"),
-            alt: "Static pressure contours around the NACA 0012 aerofoil showing the leading-edge suction peak and trailing-edge pressure recovery",
-            caption:
-              "Higher pressure below, lower above. That difference is the lift. Pressure changes very little across the thin boundary layer, which is a genuine result of boundary-layer theory rather than a plotting artefact, and it is why the pressure field is comparatively insensitive to near-wall mesh quality.",
-            width: 1136,
-            height: 922,
-          },
         },
         {
           kind: "figureAside",
@@ -290,7 +289,7 @@ export const aerospaceCfdFsi: Project = {
           body: [
             "Validation compares the predicted surface pressure distribution against the NASA NACA 0012 resources (Gregory & O'Reilly for surface pressure, Ladson for force coefficients) at matched Reynolds number and incidence. The computed Cp distribution overlaps this experimental data closely across the full chord.",
             "The integrated lift follows at CL ≈ 1.06 against an experimental 1.07 to 1.08, about **1.4 % low**, and against the thin-aerofoil hand calculation of 1.097 made before any solver was opened.",
-            "Matching the full Cp distribution is a stronger claim than matching lift alone. An integrated coefficient can agree through cancellation between two compensating errors, whereas a point-by-point match across the chord cannot happen by accident. The Cp distribution is also the aerodynamic loading itself, so it is the quantity the structural side of an FSI analysis consumes.",
+            "Matching the full Cp distribution is a stronger claim than matching lift alone. An integrated coefficient can agree through cancellation between two compensating errors, whereas a point-by-point match across the chord cannot happen by accident. The Cp distribution is also the aerodynamic loading itself, so it is the quantity the structural side of a coupled analysis consumes.",
           ],
         },
         {
@@ -302,111 +301,31 @@ export const aerospaceCfdFsi: Project = {
       ],
     },
     {
-      id: "turbine-fsi",
-      title: "Wind turbine: one-way fluid-structure interaction",
-      kicker: "Multiphysics",
-      blocks: [
-        {
-          kind: "text",
-          body: [
-            "The main study couples two physics domains: the output of a rotating-frame CFD solution becomes the load input to a static structural analysis. That is how aeroelastic sizing work is normally organised, and it introduces a class of error no single-physics analysis has, namely load transfer between non-matching meshes.",
-            "The rotor is solved in a rotating reference frame, so a steady solution captures rotation without a transient sliding interface. Rotational periodicity then lets one blade in a 120° sector stand for all three, cutting cost by a factor of three at the price of excluding tower shadow, wind shear and yaw.",
-          ],
-        },
-        {
-          kind: "text",
-          body: [
-            "The sector mesh at the top of this page is that domain: one blade, 120° of azimuth, with the periodic faces standing in for the two blades that are not meshed.",
-            "The first check is kinematic. Blade velocity in the stationary frame reaches 98.05 m/s at the tip of the 44.2 m rotor, against 98.12 m/s from ΩR by hand. That 0.07 % agreement verifies the rotation rate, axis, units and root offset in a single number.",
-          ],
-        },
-        {
-          kind: "figureStrip",
-          figures: [
-            {
-              src: img("turbine-rotor-vectors.png"),
-              alt: "Blade velocity vectors in the stationary frame showing the linear increase of velocity with radius up to 98 m/s at the tip",
-              caption: "Blade velocity in the stationary frame, showing the linear Ωr distribution along the span.",
-              width: 1174,
-              height: 922,
-            },
-            {
-              src: img("turbine-section-pressure.png"),
-              alt: "Pressure contours on a section through the turbine blade, stagnation point at +199 Pa and suction peak at −395 Pa",
-              caption: "Sectional pressure: stagnation +199 Pa, suction peak −395 Pa.",
-              width: 1174,
-              height: 922,
-            },
-            {
-              src: img("turbine-section-velocity.png"),
-              alt: "Velocity vectors on a section through the turbine blade showing accelerated flow over the suction side up to 34.8 metres per second",
-              caption: "Sectional velocity vectors: accelerated flow over the suction side, up to 34.8 m/s.",
-              width: 1174,
-              height: 922,
-            },
-          ],
-        },
-        {
-          kind: "text",
-          body: [
-            "The section cut shows the aerofoil doing what the NACA 0012 study says it should, which is the point of having done that study first. The pressure difference across the section produces both the useful torque and the flapwise bending load the structure has to survive.",
-          ],
-        },
-      ],
-    },
-    {
-      id: "structural",
-      title: "From pressure field to structural response",
-      kicker: "Coupling",
-      blocks: [
-        {
-          kind: "figureAside",
-          side: "right",
-          figure: {
-            src: img("turbine-fea-deformation.png"),
-            alt: "Total deformation contour of the turbine blade from the structural analysis, increasing from root to a 0.405 metre maximum at the tip",
-            caption:
-              "Total deformation under the mapped CFD pressure field plus centrifugal loading: 0.405 m at the tip, 0.92 % of rotor radius.",
-            width: 1042,
-            height: 471,
-            plate: true,
-          },
-          body: [
-            "The blade is modelled as a homogenised orthotropic composite shell: outer skin plus internal spar, both tapering along the span, with longitudinal stiffness 15× the transverse. The CFD pressure field plus centrifugal inertia, with the root on a remote displacement, gives a maximum tip deflection of **0.405 m**. The shape is classic cantilever behaviour, near-zero at the root and growing non-linearly toward the tip, since each span station carries the integrated moment of all load outboard of it.",
-            "The strongest check in the project is the root radial reaction. For a rigidly rotating mass distribution, the total radial force reduces exactly to mΩ²r_cm regardless of how the mass is distributed. With a 22,473 kg blade and centre of mass at 14.232 m, that gives 1,576.3 kN by hand against 1,578.1 kN from ANSYS, a difference of **0.116 %**. One number simultaneously verifies the mass, density, centre of mass, angular velocity, centrifugal load implementation and reaction extraction.",
-            "Tip deflection matters twice over. It is a design-driving constraint on real turbines, since the blade must not strike the tower, and it decides whether one-way coupling was legitimate in the first place. At 0.92 % of rotor radius, the assumption looks defensible at this operating point.",
-          ],
-        },
-      ],
-    },
-    {
       id: "limitations",
-      title: "Limitations, stated plainly",
+      title: "Where the agreement does not extend",
       kicker: "Engineering judgement",
       blocks: [
         {
           kind: "text",
           body: [
-            "The repository reports what the model cannot say with the same prominence as what it can:",
+            "Close agreement on lift is not a licence to trust every output. The mesh supports the pressure field well and the wall shear badly, and those two facts have to be reported together:",
           ],
         },
         {
           kind: "list",
           items: [
-            "**The power coefficient is not converged.** Cp ≈ 0.141 sits well below the 0.30 to 0.45 a real machine of this class achieves, and the refinement evidence shows it still moving at 7.7 million cells. It is a coarse-mesh number rather than a performance prediction, and it is reported as such.",
-            "**No experimental data exists** for either half of the turbine study, so it is numerically verified and physically assessed but cannot be called validated.",
-            "**One-way coupling only.** The load is that of the undeformed blade, and the change in local twist, which actually sets angle of attack, was not extracted.",
-            "**Periodic sector.** No tower shadow, wind shear, yaw misalignment or transient gusts.",
-            "**Static structural only.** No modal or fatigue analysis, and fatigue is what drives blade life in service.",
-            "**Von Mises against UTS is the wrong failure measure** for an orthotropic composite. The ≈16 factor of safety is a scalar screen, not a strength assessment.",
-            "Run on the ANSYS Student licence, which caps mesh size and limits boundary-layer resolution.",
+            "**Wall treatment inconsistent with the mesh.** Standard wall functions are being applied across a y⁺ field much of which lies outside their valid range.",
+            "**Wall-shear-dependent quantities are not supported.** Drag is the obvious casualty: the same near-wall limitation that leaves lift accurate leaves skin friction unreliable.",
+            "**Grid and domain independence are set out but not completed.** The six-case matrix is a plan, not a result, so the numerical uncertainty on CL has not been quantified.",
+            "**Trailing-edge cell quality is poor** in orthogonality and aspect ratio, in exactly the region that sets the Kutta condition.",
+            "**Two-dimensional and fully turbulent throughout.** No transition modelling, no three-dimensional effects, no separation onset prediction worth relying on near stall.",
           ],
         },
         {
           kind: "note",
           tone: "insight",
           body:
-            "Reporting an unconverged Cp as unconverged, rather than as a result, is the point. The contour plots are not what makes a simulation study useful. The evidence that the author knows which numbers to trust is.",
+            "The next step after a scorecard like this is a controlled refinement study, one change at a time, followed by a repeat of the validation. It is emphatically not adjusting solver settings until the number improves: tuning inputs against a known answer is curve fitting, and it produces a model with no predictive value for any case where the answer is not already known.",
         },
       ],
     },

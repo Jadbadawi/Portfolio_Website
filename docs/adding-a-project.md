@@ -30,7 +30,7 @@ resizes, re-encodes and prints the final pixel dimensions you'll need below.
 ## 2. Create the data file
 
 Create `src/lib/projects/<slug>.ts`. Copy the shape of an existing project
-(e.g. `aerospace-cfd-fsi.ts`). The full type is documented in
+(e.g. `wind-turbine-aero-structural.ts`). The full type is documented in
 `src/lib/projects/types.ts`. The essentials:
 
 ```ts
@@ -77,7 +77,12 @@ share a structure:
 | `specGrid` | Two-column grid of short technical explanations, for setup detail that would otherwise be drawn as a labelled schematic. |
 | `list` | Bulleted items (used for limitations). |
 | `table` | Small data tables (e.g. reserve factors). |
-| `note` | Callouts. `tone: "caveat"` for limitations, `"insight"` for takeaways. |
+| `note` | Callouts. `tone: "caveat"` for limitations, `"insight"` for takeaways, `"provenance"` for stating which part of the work is yours. |
+| `pipeline` | Directed workflow chain, drawn as a vertical rail with numbered nodes. Use where each stage's output is the next stage's input; use `flow` where the steps are merely a sequence. |
+| `params` | Side-by-side groups of parameter/value rows, for the handful of numbers a reader needs to judge a model. Not for every material constant. |
+| `equation` | Display equations with a plain-language reading underneath. `_{...}` and `^{...}` give subscripts and superscripts; write everything else as Unicode. There is no TeX engine, deliberately. |
+| `keyResult` | Headline comparison of independently obtained numbers, for a verification check whose point is that two routes agree. Set `emphasis` on the one that carries the conclusion. |
+| `vv` | The verification/validation contrast stated for one specific model, with a `verdict` across the foot saying where the project actually stands. |
 
 ## 3. Register it
 

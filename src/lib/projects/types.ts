@@ -101,11 +101,70 @@ export type TableBlock = {
   rows: string[][];
 };
 
-/** Callout. `caveat` for limitations/honesty notes, `insight` for takeaways. */
+/**
+ * Callout. `caveat` for limitations/honesty notes, `insight` for takeaways,
+ * `provenance` for stating where work came from and which part is the
+ * author's own.
+ */
 export type NoteBlock = {
   kind: "note";
-  tone: "caveat" | "insight";
+  tone: "caveat" | "insight" | "provenance";
   body: string;
+};
+
+/**
+ * Directed chain of workflow stages, drawn as a vertical rail.
+ *
+ * Distinct from `flow`, which is an unordered grid of method steps: a
+ * pipeline says that the output of each stage is the input to the next, so
+ * it is drawn with connectors and reads top to bottom at every width.
+ * `tag` carries the tool or the quantity handed on, e.g. "ANSYS Fluent".
+ */
+export type PipelineBlock = {
+  kind: "pipeline";
+  steps: { title: string; detail?: string; tag?: string }[];
+};
+
+/**
+ * Side-by-side groups of parameter/value rows.
+ *
+ * For the small set of numbers a reader needs to judge the model, kept out
+ * of prose so the page stays scannable. Not a place for every material
+ * constant.
+ */
+export type ParamsBlock = {
+  kind: "params";
+  groups: { title: string; rows: [string, string][] }[];
+};
+
+/**
+ * Display equations with a plain-language reading underneath.
+ *
+ * `expr` supports `_{...}` and `^{...}` for subscripts and superscripts;
+ * everything else is literal, so Unicode (Ω, ω, ×, ∞) is written directly.
+ */
+export type EquationBlock = {
+  kind: "equation";
+  items: { expr: string; meaning?: string }[];
+};
+
+/**
+ * Headline comparison of numbers obtained independently of each other, for
+ * a verification check whose whole point is that two routes agree.
+ */
+export type KeyResultBlock = {
+  kind: "keyResult";
+  items: { label: string; value: string; note?: string; emphasis?: boolean }[];
+  caption?: string;
+};
+
+/** The verification/validation contrast, stated for one specific model. */
+export type VVBlock = {
+  kind: "vv";
+  verification: { question: string; items: string[] };
+  validation: { question: string; items: string[] };
+  /** Where this project actually stands, rendered across the foot of the box. */
+  verdict: string;
 };
 
 export type Block =
@@ -120,7 +179,12 @@ export type Block =
   | SpecGridBlock
   | ListBlock
   | TableBlock
-  | NoteBlock;
+  | NoteBlock
+  | PipelineBlock
+  | ParamsBlock
+  | EquationBlock
+  | KeyResultBlock
+  | VVBlock;
 
 export interface Section {
   id: string;

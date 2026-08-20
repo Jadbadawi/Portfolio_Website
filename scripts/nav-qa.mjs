@@ -11,7 +11,8 @@ const BASE = "http://localhost:3000";
 const CHROME = "C:/Program Files/Google/Chrome/Application/chrome.exe";
 
 const SLUGS = {
-  cfd: "aerospace-cfd-fsi",
+  cfd: "wind-turbine-aero-structural",
+  naca: "naca0012-aerofoil",
   ply: "thin-ply-composite-analysis",
   uav: "blood-transport-uav",
 };

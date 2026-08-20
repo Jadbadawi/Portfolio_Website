@@ -33,22 +33,102 @@ Every line maps to the "Skills demonstrated" table in
 `thin-ply-composite-analysis/README.md`, or the Tools section of
 `blood-transport-uav/README.md`.
 
-## Aerospace CFD & FSI (`src/lib/projects/aerospace-cfd-fsi.ts`)
+## Wind Turbine Aero-Structural Simulation (`src/lib/projects/wind-turbine-aero-structural.ts`)
+
+Split out of the former combined `aerospace-cfd-fsi` project in August 2026,
+along with the NACA 0012 study below. `next.config.ts` permanently redirects
+`/projects/aerospace-cfd-fsi` to this page.
+
+Three sources, referred to below as:
+
+| Short name | What it is |
+|---|---|
+| **Repo** | `github.com/Jadbadawi/aerospace-cfd-fsi`, local clone `~/Documents/Simulation`; the turbine write-up is `turbine-fsi/README.md`. |
+| **Notes** | Two engineering study notes written from the course material: `~/Documents/summer 2026/Wind_Turbine_CFD_FSI_Complete_Workflow_Verification_Validation.docx` (part 1, CFD) and `..._FEA_Part2_...docx` (part 2, structural). |
+| **Archive** | The saved ANSYS Workbench project, `~/Documents/summer 2026/turbine_files/`. Raw solver output, not a write-up. |
+
+| Claim | Source |
+|---|---|
+| 12 m/s wind, 2.22 rad/s, 43.2 m blade + 1 m hub offset, R = 44.2 m | Notes part 1 §1.3 |
+| Tip speed 98.12 m/s by hand vs 98.05 m/s in CFD-Post (0.07 %); λ = 8.18 | Notes part 1 §7.1 and §1.3 |
+| Swept area 6,137.5 m², wind power 6.496 MW | Notes part 1 §1.3 |
+| Steady incompressible pressure-based RANS, SST k-ω, coupled scheme, 10⁻⁶ residual target | Notes part 1 §6 and Appendix A |
+| Rotating-frame source terms Ω×(Ω×r) and 2Ω×u_rel; no Euler term at constant Ω | Notes part 1 §3.3 |
+| 120° rotational periodic interface; vectors rotated rather than copied | Notes part 1 §4.1 to §4.3 |
+| Periodic faces arrive as walls and must be converted, else the blade runs in a duct | Notes part 1 §4.3 step 6; Repo `turbine-fsi/README.md` §5 |
+| **367,691 cells, 65,956 nodes, 5,108 blade wall faces** | Archive, `dp0/FFF/Fluent/Solution.trn` mesh-read log. Jad's own run, not the tutorial's nominal figure. |
+| One-blade torque 137,115 N·m, 0.913 MW, Cp = 0.141 | Notes part 1 §7.2. **Supplied course result**, not an independent extraction, and the page says so. |
+| Cp not mesh independent, still moving toward multi-million-cell meshes; Betz 0.5926 | Notes part 1 §5.4, §7.4, §12 |
+| Manufacturer-scale Cp ≈ 0.30 is a plausibility check, not validation, and why | Notes part 1 §7.3 and §10.1 |
+| Stagnation +199 Pa, suction −395 Pa; sectional velocity to 34.8 m/s | Read off the figures themselves (`section-pressure.png` and `section-velocity.png` colourbars) |
+| **Iteration history, and the 0.41 % drift over the final 100 iterations** | Archive, `dp0/FFF/Fluent/report-def-0-rfile.out`, copied verbatim to `scripts/data/turbine-blade-pressure-monitor.out` and plotted by `scripts/make-turbine-plots.mjs`. Jad's own run. |
+| One-way coupling: pressure crosses, deformation does not; interpolation between non-matching meshes | Notes part 1 §11.1 and part 2 §1 |
+| Force and moment conservation across the transfer **not yet checked** | Notes part 1 §11.4 and part 2 §11.2, both listing it as required and outstanding |
+| Skin 0.100 to 0.005 m, spar 0.100 to 0.030 m, both linear | Notes part 2 §2 thickness table |
+| E₁ 113.75 GPa, E₂ = E₃ 7.583 GPa, ρ 1550 kg/m³, and the material-axis warning | Notes part 2 §3 |
+| **4,831 SHELL181 elements, 4,673 nodes, 27,912 equations, all six root DOF constrained** | Archive, `dp0/SYS/MECH/solve.out`. Jad's own run; Notes part 2 §7 quotes the tutorial's nominal "about 4,000". |
+| Blade mass 22,473 kg, c.m. 14.232 m, F = mΩ²r = 1,576.3 kN | Notes part 2 §9 |
+| Root radial reaction 1,578.1 kN from ANSYS, 0.116 % difference | Notes part 2 §11.3 |
+| Tip deflection 0.405 m, 0.92 % of rotor radius | Jad's own ANSYS contour, `wind-turbine-aero-structural/fea-deformation.png`, reading 0.40524 m max, dated 27 Jul 2026. See caveat 1. |
+| Max equivalent stress ≈ 33.36 MPa at the spar-skin junction; UTS 537 MPa; ratio ≈ 16 | Notes part 2 §10. **Supplied course result**; no independent contour exists. See caveat 2. |
+| Von Mises is not a composite failure criterion; Tsai-Hill, Tsai-Wu, Hashin needed | Notes part 2 §10 composite-strength warning |
+| Every limitation in "What the model does not yet prove" | Notes part 1 §12, part 2 §4 and §12; Repo `turbine-fsi/README.md` limitations |
+| Every item in "The next verification campaign" | Notes part 1 §12.1 and part 2 §13. **All unrun.** |
+| ANSYS Student licence caps mesh size | Repo `turbine-fsi/README.md` limitations; the solver watermark on every figure |
+| Course context (Cornell and ANSYS module, ANSYS 2026 R1, summer 2026) | Repo `README.md` header; stated on the page as a provenance note |
+| Figures `mesh`, `rotor-vectors`, `section-pressure`, `section-velocity`, `fea-deformation` | Repo `turbine-fsi/` (mapping in `scripts/import-images.mjs`) |
+| `convergence-monitor.png` | Generated by `scripts/make-turbine-plots.mjs` from the archive data above |
+| `card.png` | 16:9 crop of `rotor-vectors.png` (region in `scripts/import-images.mjs`) |
+| `og.png` | Generated by `scripts/make-og-projects.mjs` |
+
+### Caveats specific to this project
+
+1. **The 0.405 m tip deflection is not in either study note.** Notes part 2
+   §12 explicitly records that no numeric tip deformation was supplied, and
+   leaves the one-way-coupling adequacy check outstanding for want of one.
+   The number comes from Jad's own ANSYS Mechanical solve and is legible in
+   the committed contour image, so it is kept, and the page attributes the
+   deflection to the model rather than to the course. If the result file is
+   ever lost, that image is the evidence.
+2. **The 33.36 MPa stress has no corresponding image in Jad's possession.**
+   It is quoted from the study note, which took it from the supplied course
+   material. The page frames it as "the supplied structural results give".
+   Re-run and screenshot it before presenting it as an own result.
+3. **Two mass values disagree by 0.2 %.** The study note gives 22,473 kg, and
+   that value reproduces the quoted 1,576.3 kN exactly; the archive's
+   `solve.out` reports 22,519 kg, which would give 1,579.6 kN. The page uses
+   the note's pair (22,473 kg giving 1,576.3 kN) because they are internally
+   consistent with the published 0.116 % comparison. Worth resolving.
+4. **The archived structural solve had large deflection enabled.**
+   `solve.out` line 438 reads "NONLINEAR GEOMETRIC EFFECTS . . . ON", and it
+   converged in four equilibrium iterations. The study notes list enabling
+   large deflection as future work. Because the archived solve (25 Jul)
+   predates the deformation screenshot (27 Jul), it cannot be proven they are
+   the same run, so the page claims neither that the analysis was
+   geometrically nonlinear nor that enabling it is outstanding. Confirm, then
+   state it: it counts in Jad's favour.
+5. **Torque, power and Cp are the course's numbers.** Jad's own run monitored
+   integral blade pressure, not torque. If torque is re-extracted from the
+   archive, the page can drop the "supplied course result" framing.
+6. **Not validated.** No matched experimental dataset exists for this
+   turbine. Do not soften the verification and validation box.
+
+## NACA 0012 Aerofoil (`src/lib/projects/naca0012-aerofoil.ts`)
 
 | Claim | Source (in `aerospace-cfd-fsi`) |
 |---|---|
 | CL ≈ 1.06 vs experiment 1.07 to 1.08, 1.4 % low; thin-aerofoil 1.097 | `README.md` §1 Validation |
 | Gregory & O'Reilly / Ladson comparison at matched Re and incidence | `README.md` §1 Validation |
 | Mass imbalance 10⁻⁷; residuals ≈10⁻⁶; y⁺ audit; six-case verification matrix | `README.md` §1 verification list; `naca0012-airfoil/README.md` §14.2 |
-| `preanalysis.py` capabilities | `README.md` §2; `tools/preanalysis.py` |
-| Rotating frame, 120° periodic sector, SST k-ω, orthotropic shell | `README.md` §3 |
-| Tip speed 98.05 vs 98.12 m/s (0.07 %), rotor 44.2 m | `README.md` §3 Fluid domain |
-| Stagnation +199 Pa, suction −395 Pa | `README.md` §3 Sectional aerodynamics |
-| Longitudinal stiffness 15× transverse; tip deflection 0.405 m; 0.92 % of radius | `README.md` §3 Structural response |
-| Root reaction 1,576.3 kN hand vs 1,578.1 kN ANSYS (0.116 %); blade 22,473 kg, c.m. 14.232 m | `README.md` §3 Structural response |
-| Cp ≈ 0.141 not converged, still moving at 7.7 M cells; all other limitations | `README.md` §3 Limitations |
+| `preanalysis.py` capabilities (the Python entry in the tool list) | `README.md` §2; `tools/preanalysis.py` |
+| 10°, Re 6×10⁶, 1 m chord, 51.45 m/s, 12.5c far field, ≈27,000 cells | `naca0012-airfoil/README.md` case definition and §8 |
+| Wall functions inconsistent with much of the y⁺ field; drag unreliable | `naca0012-airfoil/README.md` §12.3 and §14.1 scorecard |
+| Poor trailing-edge cell orthogonality and aspect ratio | `naca0012-airfoil/README.md` §14.1 scorecard |
+| Domain and grid independence set out but not completed | `naca0012-airfoil/README.md` §14.2 verification matrix |
+| Curve-fitting warning ("tuning inputs against a known answer") | `naca0012-airfoil/README.md` §14.1 conclusion |
 | Course context (CornellX ENGR2000X, ANSYS 2026 R1, summer 2026) | `README.md` header |
-| All six images | `naca0012-airfoil/` and `turbine-fsi/` figure files (names preserved in `scripts/import-images.mjs`) |
+| All images | `naca0012-airfoil/` figure files (mapping in `scripts/import-images.mjs`) |
+| `og.png` | Regenerated by `scripts/make-og-projects.mjs`; the previous one advertised both studies |
 
 ## Thin-Ply Composite Analysis (`src/lib/projects/thin-ply-composite-analysis.ts`)
 
