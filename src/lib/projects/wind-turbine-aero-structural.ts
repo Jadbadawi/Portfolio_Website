@@ -64,7 +64,7 @@ export const windTurbineAeroStructural: Project = {
 
   githubUrl: "https://github.com/Jadbadawi/aerospace-cfd-fsi",
   externalLinks: [
-    { label: "NACA 0012 aerofoil study", url: "/projects/naca0012-aerofoil" },
+    { label: "NACA 0012 aerofoil study", url: "/projects/naca-cfd-solver" },
   ],
 
   stats: [

@@ -123,7 +123,13 @@ Three sources, referred to below as:
 6. **Not validated.** No matched experimental dataset exists for this
    turbine. Do not soften the verification and validation box.
 
-## NACA 0012 Aerofoil (`src/lib/projects/naca0012-aerofoil.ts`)
+## NACA 0012 Aerofoil, the ANSYS study (now the `precursor` section of `src/lib/projects/naca-cfd-solver.ts`)
+
+Merged 24 Aug 2026. This was its own project page until the Fluent study and
+the C++ solver were combined into one, on the grounds that the solver exists
+because of a question this study raised. The claims below did not change; they
+were compressed into one section and its figures stay under
+`public/images/naca0012-aerofoil/`. `next.config.ts` redirects the old URL.
 
 | Claim | Source (in `aerospace-cfd-fsi`) |
 |---|---|

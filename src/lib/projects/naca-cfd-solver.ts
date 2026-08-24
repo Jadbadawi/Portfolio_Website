@@ -3,10 +3,24 @@ import type { Project } from "./types";
 const img = (file: string) => `/images/naca-cfd-solver/${file}`;
 
 /**
- * The solver written from scratch, as distinct from `naca0012-aerofoil`, which
- * is the same aerofoil at the same conditions solved in ANSYS Fluent. The two
- * pages deliberately cross-link: this one exists because that one raised the
- * question of what the commercial solver was doing underneath.
+ * Images from the earlier ANSYS Fluent study, which used to be the separate
+ * `naca0012-aerofoil` project. They stay under their original path so the
+ * files are not duplicated; `next.config.ts` redirects the old project URL
+ * here.
+ */
+const fluent = (file: string) => `/images/naca0012-aerofoil/${file}`;
+
+/**
+ * One page for the NACA 0012, covering both times it was solved: first in
+ * ANSYS Fluent, then with a solver written from scratch. They were separate
+ * projects and read better as one, because the second exists entirely because
+ * of a question the first raised, and both end at the same aerofoil at the
+ * same conditions where the answers can be set side by side.
+ *
+ * The solver is the substance of the page and the Fluent study is the
+ * precursor, so the split is roughly 80/20 by volume. Keep it that way: the
+ * `precursor` section is deliberately compressed and should not grow back into
+ * the full case study it was.
  *
  * Every number on this page was re-derived from the solver's own output files
  * rather than transcribed from a terminal, and the reference values come from
@@ -15,12 +29,13 @@ const img = (file: string) => `/images/naca-cfd-solver/${file}`;
  */
 export const nacaCfdSolver: Project = {
   slug: "naca-cfd-solver",
-  title: "From First Principles to RANS: A C++ Finite-Volume CFD Solver",
-  shortTitle: "C++ Finite-Volume CFD Solver",
+  title:
+    "NACA 0012 CFD: From Commercial CFD to a C++ Solver From First Principles",
+  shortTitle: "NACA 0012 CFD: Commercial CFD to a C++ Solver",
   tagline:
-    "Writing the solver rather than driving one: geometry, mesh, discretisation, pressure-velocity coupling and turbulence model built up in C++ and checked at every stage against problems with known answers.",
+    "The same aerofoil solved twice. First in ANSYS Fluent and validated against NASA measurements, then with a solver written from scratch in C++, because the first study kept raising the question of what the commercial code was doing between the mesh and the answer.",
   summary:
-    "A two-dimensional cell-centred finite-volume solver written from scratch in C++, carried from analytical verification and a lid-driven cavity benchmark through to wall-resolved k-omega SST simulations of a NACA 0012 at a chord Reynolds number of 6×10⁶.",
+    "A two-dimensional cell-centred finite-volume solver written from scratch in C++, carried from analytical verification and a lid-driven cavity benchmark through to wall-resolved k-omega SST simulations of a NACA 0012 at a chord Reynolds number of 6×10⁶, alongside the ANSYS Fluent study of the same case that motivated it.",
   category: "CFD · Numerical methods · C++",
   period: "Summer 2026",
   featured: true,
@@ -53,15 +68,20 @@ export const nacaCfdSolver: Project = {
     "Pressure-velocity coupling",
     "RANS turbulence modelling",
     "Mesh generation",
+    "External aerodynamics",
     "Verification & validation",
   ],
-  tools: ["C++17", "Python", "NumPy", "Matplotlib"],
+  tools: ["C++17", "Python", "NumPy", "Matplotlib", "ANSYS Fluent"],
 
   githubUrl: "https://github.com/Jadbadawi/naca-cfd-solver",
   externalLinks: [
     {
-      label: "The same case in ANSYS Fluent",
-      url: "/projects/naca0012-aerofoil",
+      label: "ANSYS study repository",
+      url: "https://github.com/Jadbadawi/aerospace-cfd-fsi",
+    },
+    {
+      label: "Wind turbine study",
+      url: "/projects/wind-turbine-aero-structural",
     },
     {
       label: "NASA Turbulence Modeling Resource",
@@ -99,15 +119,15 @@ export const nacaCfdSolver: Project = {
   sections: [
     {
       id: "overview",
-      title: "Why write the solver",
+      title: "The same aerofoil, solved twice",
       kicker: "Overview",
       blocks: [
         {
           kind: "text",
           body: [
-            "I had already solved this exact case in ANSYS Fluent: a NACA 0012 at 10° incidence and a chord Reynolds number of 6×10⁶, validated against NASA surface-pressure data. That study answered whether the aerofoil result was trustworthy. It did not answer a question it kept raising, which is what the solver was doing between the mesh and the answer.",
-            "So I wrote one. This project implements the numerical machinery a commercial code keeps out of sight: the finite-volume discretisation, the pressure-velocity coupling that makes incompressible flow solvable at all, the correction that keeps a skewed mesh honest, and a two-equation turbulence model with its near-wall treatment. There is no numerical library underneath it. The linear systems are solved by a Gauss-Seidel sweep with over-relaxation written for this project, and no discretisation, no boundary condition and no turbulence closure comes from a library.",
-            "The discipline that makes it worth showing is not that it runs. It is that every stage was checked against a problem whose answer was already known, before being trusted on a problem whose answer was not.",
+            "One aerofoil, a NACA 0012 at 10° incidence and a chord Reynolds number of 6×10⁶, and two goes at it. The first was in ANSYS Fluent, validated against NASA surface-pressure data, and it answered whether the result could be trusted. The second was a solver written from scratch, and it exists because the first study kept raising a question it had no way of answering: what was happening between the mesh and the answer.",
+            "That precursor is the short section immediately below. The rest of the page is the solver. It implements the numerical machinery a commercial code keeps out of sight: the finite-volume discretisation, the pressure-velocity coupling that makes incompressible flow solvable at all, the correction that keeps a skewed mesh honest, and a two-equation turbulence model with its near-wall treatment. There is no numerical library underneath it. The linear systems are solved by a Gauss-Seidel sweep with over-relaxation written for this project, and no discretisation, no boundary condition and no turbulence closure comes from a library.",
+            "The discipline that makes it worth showing is not that it runs. It is that every stage was checked against a problem whose answer was already known, before being trusted on a problem whose answer was not. At the end the two solutions meet: the same section, the same incidence, the same Reynolds number, one answer from a commercial code and one from a few thousand lines of C++.",
           ],
         },
         {
@@ -161,6 +181,131 @@ export const nacaCfdSolver: Project = {
                 "Limited linear-upwind reconstruction applied as a deferred correction, then compared against NASA reference solutions",
               tag: "Cl and Cd",
             },
+          ],
+        },
+      ],
+    },
+
+    {
+      id: "precursor",
+      title: "The study this came from",
+      kicker: "Precursor",
+      blocks: [
+        {
+          kind: "text",
+          body: [
+            "Before any of the code below existed, this aerofoil was solved in ANSYS 2026 R1: two-dimensional steady RANS, 10° incidence, chord Reynolds number 6×10⁶, on a mesh of roughly 27,000 cells with ten inflation layers and a sphere of influence around the section. The case was chosen because high-quality NASA experimental data exists for it, so the argument could be carried to the end instead of stopping at plausibility.",
+            "It worked. The computed surface pressure distribution overlaps the NASA data across the full chord, and the integrated lift came out at **CL ≈ 1.06** against a measured 1.07 to 1.08, about 1.4 % low, having been predicted at 1.097 by a thin-aerofoil hand calculation done before the solver was opened. Matching the whole Cp distribution is the stronger claim: an integrated coefficient can agree through two errors cancelling, a point-by-point match across the chord cannot.",
+          ],
+        },
+        {
+          kind: "figurePair",
+          labels: ["Velocity magnitude", "Static pressure"],
+          figures: [
+            {
+              src: fluent("naca-velocity-contours.png"),
+              alt: "Velocity magnitude contours around a NACA 0012 aerofoil at 10 degrees incidence computed in ANSYS Fluent, showing the stagnation region, acceleration over the suction surface and the wake deficit",
+              caption:
+                "Far-field velocity matches the specified free stream, which is the fastest check that the boundary conditions went on as intended. Flow accelerates to nearly twice free-stream around the upper leading edge.",
+              width: 1136,
+              height: 922,
+            },
+            {
+              src: fluent("naca-pressure-contours.png"),
+              alt: "Static pressure contours around the NACA 0012 aerofoil showing the leading-edge suction peak and trailing-edge pressure recovery",
+              caption:
+                "Higher pressure below, lower above, and that difference is the lift. Pressure changes very little across the thin boundary layer, which is why the pressure field is comparatively forgiving of near-wall mesh quality.",
+              width: 1136,
+              height: 922,
+            },
+          ],
+        },
+        {
+          kind: "figureAside",
+          side: "left",
+          figure: {
+            src: fluent("experimental-cp-reference.png"),
+            alt: "Plot of experimental upper-surface pressure coefficient against chord position for the NACA 0012, with an inverted vertical axis",
+            caption:
+              "The NASA experimental upper-surface Cp used for validation, plotted with the inverted axis convention that puts stronger suction higher on the page.",
+            width: 1382,
+            height: 838,
+            plate: true,
+          },
+          body: [
+            "Validation was against the NASA NACA 0012 resources at matched Reynolds number and incidence: Gregory and O’Reilly for surface pressure, Ladson for force coefficients.",
+            "Verification came first and separately. Mass imbalance settled at order 10⁻⁷ of the incoming flow, residuals reached about 10⁻⁶ with flat force monitors rather than residuals alone, and grid and domain independence were set out as a controlled six-case matrix using Richardson extrapolation and the grid convergence index.",
+            "That matrix is a plan rather than a result. It was specified and not completed, so the numerical uncertainty on the lift coefficient was never quantified, and the write-up said so.",
+          ],
+        },
+        {
+          kind: "note",
+          tone: "caveat",
+          body:
+            "The near-wall audit failed, and reporting it is the point. Much of the aerofoil does **not** sit in the 30 < y⁺ < 300 band the chosen wall functions require, so the solver was applying a log-law relation at points where the log law does not hold. Lift survives that, because it is an integrated pressure difference. Anything depending on wall shear does not, and drag is the obvious casualty.",
+        },
+        {
+          kind: "gallery",
+          title: "The rest of the ANSYS study",
+          figures: [
+            {
+              src: fluent("reasoning-chain.png"),
+              alt: "Diagram of the CFD reasoning chain: physical problem, mathematical model, geometry and mesh, numerical solution, post-processing, verification and validation, with feedback loops back to mesh and closure",
+              caption:
+                "The chain the study followed. The dashed returns matter as much as the forward path: verification failures send you back to the mesh, validation failures back to the physics.",
+              width: 1638,
+              height: 472,
+              plate: true,
+            },
+            {
+              src: fluent("verification-vs-validation.png"),
+              alt: "Diagram contrasting verification, which asks whether the equations were solved correctly, with validation, which asks whether those equations describe the real flow",
+              caption:
+                "Two different questions, routinely conflated. Verification is answered from inside the simulation; validation only against independent measurement.",
+              width: 1565,
+              height: 604,
+              plate: true,
+            },
+            {
+              src: fluent("domain-and-bcs.png"),
+              alt: "Diagram of the computational domain: an elliptical far-field boundary around the aerofoil, labelled with a velocity inlet, a pressure outlet, and no-slip wall boundaries",
+              caption:
+                "The domain: velocity inlet, pressure outlet, no-slip surfaces, far field at roughly 12.5 chords. That outer boundary is a numerical stand-in for infinity, and its adequacy has to be shown rather than assumed.",
+              width: 1363,
+              height: 633,
+              plate: true,
+            },
+            {
+              src: fluent("near-wall-velocity-laws.png"),
+              alt: "Plot of non-dimensional velocity against wall distance showing the viscous law and the log law, with the viscous sublayer and the standard wall-function target region marked",
+              caption:
+                "The viscous law and the log law in wall units, with the band standard wall functions require. This is the plot that sets the first-cell height, and the one the y⁺ audit was measured against.",
+              width: 1393,
+              height: 818,
+              plate: true,
+            },
+            {
+              src: fluent("naca-tke.png"),
+              alt: "Turbulent kinetic energy contours isolating the boundary layer as a thin sheet that thickens aft and sheds into the wake",
+              caption:
+                "Turbulent kinetic energy, the most diagnostic of the four fields and the one most often skipped. It doubles as a visual mesh check: on an adequate near-wall mesh the sheet is sharp, on a coarse one the peak smears.",
+              width: 1136,
+              height: 922,
+            },
+            {
+              src: fluent("naca-velocity-vectors.png"),
+              alt: "Velocity vectors showing the flow turning around the leading edge of the aerofoil",
+              caption:
+                "Flow turning around the leading edge, displaced toward the lower surface by the positive incidence.",
+              width: 999,
+              height: 578,
+            },
+          ],
+        },
+        {
+          kind: "text",
+          body: [
+            "So the study answered its own question: the result is trustworthy for lift and not for drag, and it can say which is which. What it could not answer is what happened between the mesh and the answer. Choosing a second-order scheme, a coupled solver or a y⁺ target was still selecting from a menu. Everything below is what came of writing the thing each of those options switches on.",
           ],
         },
       ],
