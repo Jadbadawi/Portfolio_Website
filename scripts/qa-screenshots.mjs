@@ -20,6 +20,7 @@ await mkdir(outDir, { recursive: true });
 const pages = [
   ["home", "http://localhost:3000/"],
   ["about", "http://localhost:3000/about"],
+  ["cfd-solver", "http://localhost:3000/projects/naca-cfd-solver"],
   ["turbine", "http://localhost:3000/projects/wind-turbine-aero-structural"],
   ["naca", "http://localhost:3000/projects/naca0012-aerofoil"],
   ["waxwing", "http://localhost:3000/projects/waxwing-airbrake-aerodynamics"],

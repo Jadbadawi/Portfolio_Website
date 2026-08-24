@@ -82,14 +82,15 @@ export const site = {
   /**
    * Current work-in-progress, shown under education.
    *
-   * Keep this honestly framed as unfinished. It is the one place on the site
-   * that describes work with no published output behind it, so the wording
-   * has to make clear it is being built rather than delivered.
+   * Empty while there is nothing unfinished worth stating, and the homepage
+   * hides the block when the title is empty, following the same convention as
+   * `experience` and `resumes`. The finite-volume solver that used to sit here
+   * is finished and published at /projects/naca-cfd-solver, so describing it
+   * as in progress is no longer true.
    */
   inProgress: {
-    title: "A NACA 0012 finite-volume solver",
-    summary:
-      "Writing my own two-dimensional flow solver for the aerofoil I validated against NASA data in ANSYS: mesh handling, finite-volume discretisation of the governing equations, boundary conditions and time integration, verified against the same reference case. The aim is to implement and check the numerical methods a commercial solver keeps out of sight. In progress, not yet published.",
+    title: "",
+    summary: "",
   },
 } as const;
 

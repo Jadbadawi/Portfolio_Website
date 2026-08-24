@@ -22,7 +22,7 @@ Local clones at the time of writing (paths differ from repo names):
 | Incoming MSc Advanced Computational Methods…, Imperial College London | Profile README |
 | Toolset list (ANSYS Fluent · Abaqus · MATLAB · Python · C++ · SYCL · FPGA) | Profile README |
 | "Trustworthy, not just converged" framing | Profile README, paragraph 2 |
-| NACA 0012 finite-volume solver (the "In progress" card and the About paragraph) | Supplied directly by Jad (20 Aug 2026). **No code exists yet**, so both places must stay in the future/continuous tense. `~/Documents/cfdshit` is coursework driving a *provided* solver binary and is not this project; do not cite it as evidence. Promote to a full project only once there is a repository. |
+| NACA 0012 finite-volume solver | **Superseded 24 Aug 2026.** The solver is finished and now has its own project page (`naca-cfd-solver`), so the "In progress" card was emptied and the About paragraph moved to the past tense. `~/Documents/cfdshit` is coursework driving a *provided* solver binary and is still not this project; do not cite it as evidence. |
 | FPGA clustering acceleration (still true, no longer the headline) | Profile README, "In progress" section. Retained in the About paragraph and in `capabilities.ts`; it no longer occupies the in-progress card. |
 | Contact email | Public git commit metadata on all three repositories |
 | LinkedIn | Supplied directly by Jad (15 Aug 2026): `https://www.linkedin.com/in/jad-el-badaoui` |
@@ -244,6 +244,66 @@ Three primary sources, referred to below as:
    anywhere on his machine and no output from it survives. It is **not** claimed
    on the site, and it was removed from LinkedIn on 18 Aug 2026 pending recovery.
    If the tool is found, this is the strongest addition the page could take.
+
+## C++ Finite-Volume CFD Solver (`src/lib/projects/naca-cfd-solver.ts`)
+
+Source files: `~/Documents/summer 2026` (working directory, shared with
+unrelated ANSYS coursework) and `~/Documents/naca-cfd-solver` (the repository).
+Figures generated 24 Aug 2026 into `public/images/naca-cfd-solver/`.
+
+**Every number on the page was re-derived from the solver's output files, not
+transcribed from a terminal.** The SST runs never wrote a log, so the console
+figures could not be copied even if that had been acceptable. The re-derivation
+integrated pressure and wall shear over the 240 wall faces directly from the
+saved fields and reproduced the recorded coefficients to 5 significant figures.
+
+| Claim | Source |
+|---|---|
+| Mesh V1 peak aspect ratio 539.3, non-orthogonality 81.7° | `cells.csv`, columns written by the generator itself |
+| Mesh V2 peak aspect ratio 5.02, non-orthogonality 29.7°, closure 5.6×10⁻¹⁷ | `cells_v2.csv` |
+| Diffusion order 1.982 → 1.9988 | `annulus_convergence.csv` |
+| Convection orders 2.00 (central) and 0.95 (upwind) | `convection_diffusion_convergence.csv` |
+| Geometry/operator tests (1.1×10⁻¹⁶ flux, 2.3×10⁻¹² gradient, face counts) | `naca_fvm_geometry_test.csv`, `naca_faces.csv` |
+| Laplace boundary flux 1.7904, imbalance 4.6×10⁻⁷ | Re-derived from `laplace_solution.csv` + `ogrid_v2.csv`, reproducing the solver's own flux integration |
+| Cavity RMSE 0.0157 / 0.0078 / 0.0033 | 100×100 from `cavity_solution.csv`; **25×25 and 50×50 re-run 24 Aug 2026** because those solutions were never saved. The re-run reproduced the recorded 50×50 values (0.00777, 0.00495) exactly, which is why the 25×25 value is trusted |
+| Non-orthogonal correction, C_l,p 0.5687 → 0.5603 and C_d,p 0.1571 → 0.1605 | Re-integrated from `naca_wall_cp.csv` and `naca_wall_cp_nonorth.csv` |
+| Laminar grid convergence (3,900 / 8,850 / 15,800 cells) | `run_coarse.txt`, `run_medium.txt`, `run_fine.txt` |
+| Wall-resolved mesh: 240×180, 42,960 cells, 9.23×10⁻⁶ c, growth 1.064 | `ogrid_highRe.csv`, `highRe_wall_spacing.csv` |
+| SST α = 0: C_l = −2.26×10⁻⁷, C_d = 0.0127, y⁺ mean 1.07 | Re-integrated from `naca_sst_solution_alpha0.csv` + `naca_sst_wall_alpha0.csv` |
+| SST α = 10 first order: C_l 1.0064, C_d 0.04731 | Re-integrated from `naca_sst_first_order_solution.csv` + wall file |
+| SST α = 10 second order: C_l 1.1187, C_d 0.01326 | Re-integrated from `naca_sst_second_order_solution.csv` + wall file |
+| NASA reference C_l/C_d for CFL3D, FUN3D, NTS | NASA Turbulence Modeling Resource, SST validation page, 897×257 grid, verified 24 Aug 2026 |
+| Ghia benchmark points | Ghia, Ghia & Shin (1982), as tabulated in `plot_cavity_validation.py` |
+
+### Caveats specific to this project
+
+1. **The NASA TMR moved.** `turbmodels.larc.nasa.gov` now 301-redirects site-wide
+   to a NASA landing page and the case tables are gone from it. The live address
+   is `https://tmbwg.github.io/turbmodels/`. The page links to the new one. Do
+   not restore the old domain, it will break.
+2. **The comparison is not like-for-like, and the page says so.** NASA is
+   compressible at M = 0.15 against an incompressible solver; freestream
+   turbulence differs by three orders of magnitude in eddy-viscosity ratio
+   (0.009 against 10); their grid is roughly 5× denser. The caveat note in the
+   `reference` section states all three. Do not soften it to "within a few
+   percent" without restating the conditions.
+3. **The second-order run is not fully converged, and this must stay stated.**
+   Continuity met tolerance (4.8×10⁻⁸ against 10⁻⁷); velocity, pressure
+   correction and both turbulence increments did not before the 15,000
+   iteration cap, the worst being relative k at 1.4×10⁻³ against 10⁻⁵. The page
+   says this in the `schemes` caveat and again in `limitations`.
+4. **The α = 0 case validates symmetry only.** Its drag (0.0127) is 57 % above
+   the NASA value because it was run first-order. The page states this rather
+   than quoting the symmetry result alone.
+5. **Field plots are rotated into the flow frame.** The solver holds the mesh
+   fixed and rotates the free-stream vector, so raw output draws the aerofoil at
+   zero incidence. The figures rotate coordinates by −α so the aerofoil sits at
+   incidence against horizontal flow. Same data, presentation only.
+6. **The wake banding in `sst-mut-ratio.png` is real.** It is O-grid
+   under-resolution of the far wake, not a rendering artefact, and it is named
+   both in that figure's caption and in the limitations list.
+7. **No transition model exists in the source.** Confirmed by inspection, zero
+   occurrences. The "fully turbulent" claim is verified, not assumed.
 
 ## Known discrepancies (do not resolve silently)
 

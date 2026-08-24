@@ -37,6 +37,17 @@ function Section({
 
 const shell = "mx-auto max-w-5xl px-5 sm:px-8 lg:px-12 xl:px-16";
 
+/**
+ * The count in the "Selected work" intro, written as a word to match the
+ * surrounding prose. Derived rather than hard-coded, because a literal here
+ * silently becomes wrong the next time a project is added.
+ */
+const COUNT_WORDS = [
+  "No", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine",
+];
+const projectCountWord =
+  COUNT_WORDS[featuredProjects.length] ?? String(featuredProjects.length);
+
 export default function Home() {
   return (
     <>
@@ -121,9 +132,10 @@ export default function Home() {
               Selected work
             </p>
             <p className="max-w-xl leading-relaxed text-ink-2">
-              Five projects, each combining at least two of analytical theory,
-              numerical simulation, physical manufacture and experiment. The
-              useful engineering tends to appear where they disagree.
+              {projectCountWord} projects, each combining at least two of
+              analytical theory, numerical simulation, physical manufacture and
+              experiment. The useful engineering tends to appear where they
+              disagree.
             </p>
           </div>
           <div className="mt-10">
@@ -193,17 +205,19 @@ export default function Home() {
               ))}
             </div>
             <div>
-              <div className="border-l-2 border-accent pl-5">
-                <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-3">
-                  In progress
-                </p>
-                <h3 className="mt-2 text-[19px] leading-snug text-ink">
-                  {site.inProgress.title}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-ink-2">
-                  {site.inProgress.summary}
-                </p>
-              </div>
+              {site.inProgress.title ? (
+                <div className="border-l-2 border-accent pl-5">
+                  <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-ink-3">
+                    In progress
+                  </p>
+                  <h3 className="mt-2 text-[19px] leading-snug text-ink">
+                    {site.inProgress.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-ink-2">
+                    {site.inProgress.summary}
+                  </p>
+                </div>
+              ) : null}
               <p className="mt-7 text-sm leading-relaxed text-ink-2">
                 More on how I work, and what each project taught me, on the{" "}
                 <Link

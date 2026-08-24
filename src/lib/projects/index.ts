@@ -4,11 +4,13 @@ import { naca0012Aerofoil } from "./naca0012-aerofoil";
 import { thinPlyCompositeAnalysis } from "./thin-ply-composite-analysis";
 import { bloodTransportUav } from "./blood-transport-uav";
 import { waxwingAirbrakeAerodynamics } from "./waxwing-airbrake-aerodynamics";
+import { nacaCfdSolver } from "./naca-cfd-solver";
 
 export type { Project, Section, Block, Figure, Stat } from "./types";
 
 /** All projects, sorted by display order. Register new projects here. */
 export const projects: Project[] = [
+  nacaCfdSolver,
   windTurbineAeroStructural,
   waxwingAirbrakeAerodynamics,
   thinPlyCompositeAnalysis,
