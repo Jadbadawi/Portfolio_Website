@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import { IBM_Plex_Mono, Inter, Newsreader } from "next/font/google";
 import "./globals.css";
 import { site } from "@/lib/site";
-import SiteHeader from "@/components/SiteHeader";
-import SiteFooter from "@/components/SiteFooter";
 import Lightbox from "@/components/Lightbox";
 
 /*
@@ -19,8 +17,10 @@ import Lightbox from "@/components/Lightbox";
  *
  * The site previously ran on Geist Sans and Geist Mono. Both are decent, but
  * they are the Next.js starter defaults, so a site using them looks like a
- * template nobody chose. Do not reintroduce them, and do not add a fourth
- * family. There are no italics anywhere: emphasis is weight and wording.
+ * template nobody chose. Do not reintroduce them. The homepage alone adds
+ * its own pair (Schibsted Grotesk and DM Mono, loaded in src/app/page.tsx so
+ * no other route downloads them); nothing else may add a family. There are
+ * no italics anywhere: emphasis is weight and wording.
  */
 const newsreader = Newsreader({
   variable: "--font-newsreader",
@@ -77,18 +77,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         >
           Skip to content
         </a>
-        <SiteHeader />
         {/*
-          The left rail is fixed, so everything else is inset by its width on
-          `lg` and up. Below that the rail becomes a top bar and the offset
-          disappears.
+          Chrome lives in the layouts below this one: the homepage draws its
+          own floating nav over the flow-field hero, and every other page
+          gets the left rail from src/app/(site)/layout.tsx.
         */}
-        <div className="flex min-h-full flex-1 flex-col lg:pl-[248px] xl:pl-[280px]">
-          <main id="main" className="flex-1">
-            {children}
-          </main>
-          <SiteFooter />
-        </div>
+        {children}
         <Lightbox />
       </body>
     </html>

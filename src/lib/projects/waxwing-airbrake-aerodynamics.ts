@@ -37,6 +37,20 @@ export const waxwingAirbrakeAerodynamics: Project = {
     fit: "contain",
   },
 
+  // Team photographs of the finished vehicle and its build. The aerodynamics
+  // on this page is Jad's; the manufacture shown here is the team's, which
+  // is why the label says so.
+  homeFeature: {
+    layout: "tall",
+    label: "Vehicle design and manufacture · team build",
+    figures: [
+      { src: img("workshop-night.webp"), alt: "Project Waxwing standing upright outside the Wills Memorial Building at night", width: 960, height: 1280 },
+      { src: img("workshop-fincan.webp"), alt: "Carbon-fibre airframe tube and fin can, signed by the team", width: 720, height: 1280 },
+      { src: img("workshop-nosecone.webp"), alt: "Carbon-fibre nose cone with a machined aluminium tip", width: 720, height: 1280 },
+      { src: img("workshop-layup.webp"), alt: "Team members laying up carbon-fibre fin panels by hand in the workshop", width: 720, height: 1280 },
+    ],
+  },
+
   disciplines: [
     "External aerodynamics",
     "RANS turbulence modelling",

@@ -179,6 +179,27 @@ content in the project.
 
 No images. Text only; used for positioning copy (see `content-sources.md`).
 
+## Homepage photography (added 17 Oct 2026)
+
+Supplied by Jad as phone photos, converted to WebP (65 to 160 KB each). They
+appear only on homepage cards, through each project's `homeFeature` field,
+not in the case studies.
+
+| File | Shows | Used as |
+|---|---|---|
+| `profile/jad-portrait.webp` | Head-and-shoulders portrait, cropped square from `Jad PP.png` | Homepage profile card |
+| `profile/jad-avatar.webp` | Same portrait at 96 px | Homepage nav |
+| `waxwing-airbrake-aerodynamics/workshop-night.webp` | Finished vehicle outside the Wills Memorial Building | Waxwing card, main picture |
+| `waxwing-airbrake-aerodynamics/workshop-fincan.webp` | Carbon airframe tube and fin can, team signatures | Waxwing card thumbnail |
+| `waxwing-airbrake-aerodynamics/workshop-nosecone.webp` | Carbon nose cone, aluminium tip | Waxwing card thumbnail |
+| `waxwing-airbrake-aerodynamics/workshop-layup.webp` | Hand layup of fin panels | Waxwing card thumbnail |
+| `blood-transport-uav/build-workshop.webp` | Wing and tail boom on the bench, printed fairing fitted | UAV card mosaic |
+| `blood-transport-uav/build-printer.webp` | Printed fairing in front of an Ultimaker | UAV card mosaic |
+
+The Waxwing set is labelled "team build" because the case study covers only
+the aerodynamics; the manufacture shown is the team's. Two photos
+(`workshop-layup`, `build-workshop`) show teammates' faces.
+
 ## Global rules applied
 
 1. **No duplicate placement.** An image used as a card is not repeated as

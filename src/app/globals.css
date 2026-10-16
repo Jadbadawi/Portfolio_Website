@@ -11,8 +11,10 @@
  * Three families, each with one job (they are loaded in layout.tsx):
  * Newsreader sets the headings, Inter sets body copy, and IBM Plex Mono is
  * reserved for "instrument" text, meaning section indices, figure captions,
- * data labels and equations. Nothing may introduce a fourth family, and
- * there are no italics anywhere: emphasis is weight and wording.
+ * data labels and equations. The homepage is the one exception: it has its
+ * own scoped design (src/app/home.module.css) and its own pair, Schibsted
+ * Grotesk and DM Mono, loaded only on that route. Nothing else may add a
+ * family, and there are no italics anywhere: emphasis is weight and wording.
  */
 :root {
   --paper: #f6f3ec;

@@ -39,6 +39,17 @@ export const bloodTransportUav: Project = {
   },
   ogImage: img("og.png"),
 
+  // Build photographs: the printed fairings and joints test-fitted on the
+  // airframe, and the next part coming off the printer.
+  homeFeature: {
+    layout: "wide",
+    label: "Fast iteration with 3D printing",
+    figures: [
+      { src: img("build-workshop.webp"), alt: "UAV wing and carbon tail boom on the workshop bench with the printed red fuselage fairing fitted", width: 1280, height: 960 },
+      { src: img("build-printer.webp"), alt: "Printed fairing held in front of an Ultimaker printing the next part", width: 720, height: 1280 },
+    ],
+  },
+
   disciplines: [
     "Structural analysis",
     "Aerodynamics",

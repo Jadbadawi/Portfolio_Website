@@ -221,6 +221,18 @@ export interface Project {
   /** Open Graph image, 1280×640 recommended. Path under /public. */
   ogImage?: string;
 
+  /**
+   * Workshop photography shown on the homepage card instead of the plain
+   * card image. `tall` is a feature card with hover thumbnails, `wide` a
+   * full-width band with a photo mosaic beside the text. `label` captions
+   * the set, and must say whose work it shows when that is a team's.
+   */
+  homeFeature?: {
+    layout: "tall" | "wide";
+    label: string;
+    figures: Figure[];
+  };
+
   disciplines: string[];
   tools: string[];
   /** Optional role note, for team projects. */
